@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Chime SDK Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    #video-section {
+      height: 90vh;
+    }
+
+    video {
+      background: #000;
+      height: 90vh !important;
+    }
+
+    #videoDemo {
+      height: 40vh !important;
+    }
+  </style>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+  <script src="./amazon-chime-sdk.min.js"></script>
+  <script src="https://kit.fontawesome.com/a926154df8.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" onload="checkLocalDevice()">
+  <div class="fixed top-0 pt-10 left-0 bg-white shadow-xl w-full h-full  z-10  " id="popupConnect">
+    <div class="max-w-xl mx-auto py-4 px-6 text-center">
+      <h2 class="text-lg font-semibold text-center">Please allow camera and audio to continue</h2>
+      <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p>
+
+      <div class="flex justify-center mt-4">
+        <video playsinline autoplay muted class="border" width="100%" height="auto" muted id="videoDemo">
+      </div>
+      <div class="flex justify-center mt-4">
+        <button id="muteAudioButton" class="btn btn-primary border px-10 py-2 bg-blue-700 text-white"
+          id="audioTrackIconUnMute">
+          <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
+          <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMute"></i>
+        </button>
+        <button id="muteVideoButton" class="btn btn-primary border px-10 py-2  bg-blue-700 text-white">
+          <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
+          <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMute"></i>
+        </button>
+      </div>
+      <div class="flex justify-center mt-10 w-full">
+        <div class="flex flex-col  w-full">
+          <div class="flex flex-row justify-center w-full">
+            <button onclick="createMeeting()" id="meetingCreate"
+              class="btn text-sm btn-outline-secondary mx-5 bg-blue-700 text-white text-center border-radius rounded w-1/2  px-2 py-2 "> <i class="fa-solid fa-add mr-5"></i>Create Meeting</button>
+            <button onclick="createMeeting()"  id="meetingJoin"
+              class="btn hidden text-sm btn-outline-secondary mx-5 bg-green-700 text-white text-center border-radius rounded w-1/2  px-2 py-2 "> <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed left-0 bottom-4 w-full">
+    <div id="deviceOptions" class="mt-4 flex justify-center items-center">
+      <div class="flex items-center">
+        <div class="flex flex-col">
+          <button onclick="copyToClipboard()" class="btn h-12 mr-10 btn-primary border px-10 py-2  bg-blue-700 text-white">Copy Meeting Link</button>
+        </div>
+       
+        <button onclick="audioControl()" id="muteAudioButtonCall"
+          class="btn h-12 btn-primary border px-10 py-2  bg-blue-700 text-white">
+          <i class="fa-solid fa-microphone" id="audioTrackIconUnMuteCall"></i>
+          <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMuteCall"></i>
+        </button>
+        <button onclick="videoControl()" id="muteVideoButtonCall"
+          class="btn  h-12  btn-primary border px-10 py-2  bg-blue-700 text-white">
+          <i class="fa-solid fa-video" id="videoTrackIconUnMuteCall"></i>
+          <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMuteCall"></i>
+        </button>
+        <button onclick="endCall()" class="btn btn-primary border px-10 py-2 h-12  bg-blue-700 text-white">
+          <i class="fa-solid fa-phone-slash"></i>
+        </button>
+        <p id="timer" class="w-40 ml-20 font-semibold text-lg">00:00:00</p>
+      </div>
+    </div>
+  </div>
+  <div id="video-section" class="bg-gray-200">
+    <div class="h-full grid grid-cols-2">
+      <div class="flex items-center justify-center">
+        <div id="video-tile" class="w-full h-full">
+          <video id="video-tile-self" src="" class="w-full h-full"></video>
+        </div>
+      </div>
+      <div>
+        <table id="remoteVidTbl" class="w-full h-full">
+          <tr></tr>
+        </table>
+      </div>
+    </div>
+    <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
+  </div>
+  <div id="errorCam"
+    class="hidden bg-opacity-30 fixed left-0 top-0 w-full h-full bg-gray-900 z-20 justify-center items-end text-end flex">
+    <div class="bg-red-900 w-full py-2 px-5 flex justify-center items-center">
+      <p class="text-white p-5 flex justify-center items-center"><i
+          class="fa-solid text-2xl fa-circle-exclamation pr-5"></i>Cannot access media device Camera / Audio. Please
+        check the device setting and reload the page</p>
+      <button onclick="window.location.reload()" class="text-red-900 rounded bg-white  text-lg p-2"><i
+          class="fa-solid fa-rotate-right"></i> Reload</button>
+    </div>
+  </div>
+  <div id="errorInfo"
+    class="hidden bg-opacity-30 fixed left-0 top-0 w-full h-full bg-gray-900 z-20 justify-center items-end text-end flex">
+    <div class="bg-red-900 w-full py-2 px-5 flex justify-center items-center">
+      <p class="text-white p-5 flex justify-center items-center"><i
+          class="fa-solid text-2xl fa-circle-exclamation pr-5"></i>
+        <span id="error_msg"></span></p>
+      <button onclick="window.location.reload()" class="text-red-900 rounded bg-white  text-lg p-2"><i
+          class="fa-solid fa-rotate-right"></i> Reload</button>
+    </div>
+  </div>
+  <div class="bg-opacity-50 hidden fixed left-0 top-0 w-full h-full bg-gray-900 z-20 justify-center items-center text-center flex" id="loading">
+    <img src="loading.gif" class="w-40">
+  </div>
+  <div id="messageDiv" class="fixed text-center z-30 bottom-0 left-0 right-0 p-4 bg-black text-white transform translate-y-full w-full transition-all duration-500">
+    Copied to Clipboard
+  </div>
+
+  <script>
+    var audioTrack = false
+    var videoTrack = false
+    const muteAudioButton = document.getElementById("muteAudioButton");
+    const muteVideoButton = document.getElementById("muteVideoButton");
+    const muteAudioButtonCall = document.getElementById("muteAudioButtonCall");
+    const muteVideoButtonCall = document.getElementById("muteVideoButtonCall");
+    var hours = 0;
+    var minutes = 0;
+    var seconds = 0;
+    var timer;
+    const baseURL = window.location.origin
+    var meetingSession;
+    const logger = new ChimeSDK.ConsoleLogger("MyLogger");
+    const videoElementSelf = document.getElementById("video-tile-self");
+    var tries = 0
+    const meetingInfo = {}
+    var visitor = false
+    if(window.location.search && window.location.search != ''){
+      meetingInfo.Meeting = JSON.parse(atob(window.location.search.replace('?meetingInfo=','')))
+      visitor = true
+      document.getElementById('meetingCreate').classList.add('hidden')
+      document.getElementById('meetingJoin').classList.remove('hidden')
+    }
+      
+    //console.log(meetingInfo)
+    var copyToClipboard = () => {
+      const dummyElement = document.createElement('textarea');
+      dummyElement.value = `https://chm.thewealthadvisor.org/?meetingInfo=${btoa(JSON.stringify(meetingInfo.Meeting))}`;
+      document.body.appendChild(dummyElement);
+      dummyElement.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummyElement);
+      setTimeout(r=>{
+        document.getElementById('messageDiv').classList.remove('translate-y-neg-40')
+        document.getElementById('messageDiv').classList.add('translate-y-full')
+      },2000)
+      document.getElementById('messageDiv').classList.add('translate-y-neg-40')
+      document.getElementById('messageDiv').classList.remove('translate-y-full')
+    }
+    var startTimer = () => {
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    var stopTimer = () => {
+      clearInterval(timer);
+    }
+
+    var resetTimer = () => {
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+      updateDisplay();
+    }
+
+    var updateTimer = () => {
+      seconds++;
+      if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      updateDisplay();
+    }
+
+    var updateDisplay = () => {
+      var formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+      document.getElementById("timer").innerHTML = formattedTime;
+    }
+
+    var pad = (value) => {
+      return value < 10 ? "0" + value : value;
+    }
+    muteAudioButton.addEventListener("click", () => {
+      audioTrack.enabled = !audioTrack.enabled;
+      setAudioAction()
+    });
+    muteVideoButton.addEventListener("click", () => {
+      videoTrack.enabled = !videoTrack.enabled;
+      setVideoAction()
+
+    });
+    var setAudioAction = () => {
+      if (audioTrack.enabled) {
+        if (document.getElementById('audioTrackIconMute')) {
+          document.getElementById('audioTrackIconMute').style.display = 'none'
+          document.getElementById('audioTrackIconUnMute').style.display = 'block'
+          muteAudioButton.classList.add('bg-blue-700')
+          muteAudioButton.classList.remove('bg-gray-900')
+        }
+        document.getElementById('audioTrackIconMuteCall').style.display = 'none'
+        document.getElementById('audioTrackIconUnMuteCall').style.display = 'block'
+        muteAudioButtonCall.classList.add('bg-blue-700')
+        muteAudioButtonCall.classList.remove('bg-gray-900')
+      } else {
+        if (document.getElementById('audioTrackIconMute')) {
+          document.getElementById('audioTrackIconMute').style.display = 'block'
+          document.getElementById('audioTrackIconUnMute').style.display = 'none'
+          muteAudioButton.classList.remove('bg-blue-700')
+          muteAudioButton.classList.add('bg-gray-900')
+        }
+        document.getElementById('audioTrackIconMuteCall').style.display = 'block'
+        document.getElementById('audioTrackIconUnMuteCall').style.display = 'none'
+        muteAudioButtonCall.classList.remove('bg-blue-700')
+        muteAudioButtonCall.classList.add('bg-gray-900')
+      }
+    }
+    var setVideoAction = () => {
+      if (videoTrack.enabled) {
+        if (document.getElementById('videoTrackIconMute')) {
+          document.getElementById('videoTrackIconMute').style.display = 'none'
+          document.getElementById('videoTrackIconUnMute').style.display = 'block'
+          muteVideoButton.classList.add('bg-blue-700')
+          muteVideoButton.classList.remove('bg-gray-900')
+        }
+        document.getElementById('videoTrackIconMuteCall').style.display = 'none'
+        document.getElementById('videoTrackIconUnMuteCall').style.display = 'block'
+        muteVideoButtonCall.classList.add('bg-blue-700')
+        muteVideoButtonCall.classList.remove('bg-gray-900')
+      } else {
+        if (document.getElementById('videoTrackIconMute')) {
+          document.getElementById('videoTrackIconMute').style.display = 'block'
+          document.getElementById('videoTrackIconUnMute').style.display = 'none'
+          muteVideoButton.classList.remove('bg-blue-700')
+          muteVideoButton.classList.add('bg-gray-900')
+        }
+        document.getElementById('videoTrackIconMuteCall').style.display = 'block'
+        document.getElementById('videoTrackIconUnMuteCall').style.display = 'none'
+        muteVideoButtonCall.classList.remove('bg-blue-700')
+        muteVideoButtonCall.classList.add('bg-gray-900')
+      }
+    }
+    // const form = document.getElementById("userForm");
+    // form.addEventListener("submit", (event) => {
+    //   event.preventDefault();
+    //   const formData = new FormData(form);
+    //   document.getElementById('name').innerText = document.getElementById('userName').value;
+    //   document.getElementById('popupConnect').remove()
+    //   init()
+    // });
+    
+    const createAttendee = async (meeting) => {
+      const options = {
+        method: "GET",
+        cache: 'no-cache',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const url = baseURL + `/createAttendee/${meeting.MeetingId}`;
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          const eror = await response.json()
+          throw new Error(eror.message);
+        }
+        var res = await response.json();
+        if(!res.Attendee){
+          throw new Error("Attendee creation failed at server side.");
+        }
+        meetingInfo.Attendee = res.Attendee
+        startMeeting()
+      } catch (error) {
+        document.getElementById('errorInfo').classList.remove('hidden')
+        document.getElementById('error_msg').innerText = "Error Creating Attendee /  " + error
+      }
+    }
+    var createMeeting = async () => {
+      document.getElementById('loading').classList.remove('hidden')
+      if(visitor){
+        createAttendee(meetingInfo.Meeting)
+        return
+      }
+      const options = {
+        method: "GET",
+        cache: 'no-cache',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const url = baseURL + "/createMeeting";
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          const eror = await response.json()
+          throw new Error(eror.message);
+        }
+        var res = await response.json();
+        if(!res.Meeting){
+          throw new Error("Meeting creation failed at server side.");
+        }
+        meetingInfo.Meeting = res.Meeting
+        createAttendee(res.Meeting)
+      } catch (error) {
+        document.getElementById('errorInfo').classList.remove('hidden')
+        document.getElementById('error_msg').innerText = "Error Creating Meeting /  " + error
+      }
+    }
+    var checkLocalDevice = () => {
+      const video = document.getElementById("videoDemo");
+      const constraints = {
+        video: true,
+        audio: true,
+      };
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(stream => {
+          audioTrack = stream.getAudioTracks()[0];
+          videoTrack = stream.getVideoTracks()[0];
+          console.log(audioTrack, videoTrack)
+          video.srcObject = stream;
+        })
+        .catch(error => {
+          console.error(error)
+          document.getElementById('errorCam').classList.remove('hidden')
+        })
+    }
+    
+    async function startMeeting() {
+      document.getElementById('popupConnect').remove()
+      document.getElementById('loading').classList.add('hidden')
+      const meeting = meetingInfo.Meeting;
+      const attendee = meetingInfo.Attendee;
+
+      const deviceController = new ChimeSDK.DefaultDeviceController(logger);
+      //console.log("deviceController", deviceController);
+      const configuration = new ChimeSDK.MeetingSessionConfiguration(
+        meeting,
+        attendee
+      );
+      //console.log("configuration ", configuration);
+      meetingSession = new ChimeSDK.DefaultMeetingSession(
+        configuration,
+        logger,
+        deviceController
+      );
+
+      //console.log("meetingSession ", meetingSession);
+      const presentAttendeeId = meetingSession.configuration.credentials.attendeeId;
+      //console.log("presentAttendeeId - ", presentAttendeeId);
+      const browserBehaviour = new ChimeSDK.DefaultBrowserBehavior();
+      //console.log("supportSetSinkId is ", browserBehaviour.supportsSetSinkId());
+
+      await initLocalDevices();
+    }
+    async function hideCamera() {
+      await meetingSession.audioVideo.stopVideoInput();
+    }
+    async function initLocalDevices() {
+      try {
+        const videoInputs = await meetingSession.audioVideo.listVideoInputDevices();
+        for (let i = 0; i < videoInputs.length; i++) {
+          const option = document.createElement("option");
+          option.text = videoInputs[i].label || "Audio-in \${i + 1}";
+          option.value = videoInputs[i].deviceId;
+        }
+
+        if (videoInputs[0] && videoInputs[0].deviceId != "") {
+          await meetingSession.audioVideo.chooseVideoInputQuality(
+            "960",
+            "540",
+            "15"
+          ); // 540p 15fps
+          await meetingSession.audioVideo.setVideoMaxBandwidthKbps(1400);
+          await meetingSession.audioVideo.startVideoInput(videoInputs[0].deviceId); // Selecting the first camera device for simplicity v3
+          const qualitySetting =
+            await meetingSession.audioVideo.getVideoInputQualitySettings();
+          //console.log("video quality publishing is ", qualitySetting);
+        } else {
+          await meetingSession.audioVideo.stopVideoInput();
+          //console.log("empty set for chooseVideoInputDevice");
+        }
+
+        // microphone
+        const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
+        if (audioInputs[0] && audioInputs[0].deviceId != "") {
+          await meetingSession.audioVideo.startAudioInput(audioInputs[0].deviceId);
+        } else if (audioInputs[0] && audioInputs[0].groupId != "") {
+          await meetingSession.audioVideo.startAudioInput(audioInputs[0].groupId);
+        } else {
+          await meetingSession.audioVideo.startAudioInput(null);
+        }
+
+      } catch (err) {
+        //console.log("Try Catch Error - unable to acquire device - ", err);
+      }
+
+      await meetingSession.audioVideo.startVideoPreviewForVideoInput(videoElementSelf);
+      joinMeeting()
+
+    }
+
+    async function joinMeeting() {
+      await meetingSession.audioVideo.stopVideoPreviewForVideoInput(videoElementSelf);
+      const audioOutputElement = document.getElementById("audio");
+      try {
+        await meetingSession.audioVideo.bindAudioElement(audioOutputElement);
+      } catch (e) {
+        //console.log("Failed to bindAudioElement ", e);
+      }
+      const observer = {
+        audioVideoDidStart: () => {
+          logger.debug("Started");
+          //console.log("audioVideoDidStart fired");
+          startTimer()
+          meetingSession.audioVideo.startLocalVideoTile();
+          if (!videoTrack.enabled) {
+            const localVideoTile = meetingSession.audioVideo.getLocalVideoTile();
+            //console.log(localVideoTile)
+            localVideoTile.pause();
+          }
+          if (!audioTrack.enabled) {
+            meetingSession.audioVideo.realtimeMuteLocalAudio();
+          }
+        },
+        videoTileDidUpdate: (tileState) => {
+          //console.log("videoTileDidUpdate fired", tileState);
+          if (!tileState.boundAttendeeId) {
+            return;
+          }
+          if (tileState.localTile) {
+            meetingSession.audioVideo.bindVideoElement(
+              tileState.tileId,
+              videoElementSelf
+            );
+            //console.log("local tile");
+          } else {
+
+            if (!document.getElementById(tileState.tileId)) {
+              var trs = document.querySelectorAll("#remoteVidTbl tr");
+              var tr = trs[trs.length - 1];
+              if (tr.querySelectorAll("td").length >= 2) {
+                const tr_node = document.createElement("tr");
+                tr_node.style.width = "100%";
+                document.getElementById("remoteVidTbl").appendChild(tr_node);
+                tr = tr_node;
+              }
+
+              const td_node = document.createElement("td");
+              tr.appendChild(td_node);
+
+              const vid_node = document.createElement("video");
+              vid_node.id = tileState.tileId;
+              vid_node.style.height = "auto";
+              vid_node.style.width = "100%";
+              td_node.appendChild(vid_node);
+            }
+            const videoElementNew = document.getElementById(tileState.tileId);
+            meetingSession.audioVideo.bindVideoElement(
+              tileState.tileId,
+              videoElementNew
+            );
+          }
+        },
+        videoTileWasRemoved: (tileId) => {
+          const videoElementRemoved = document.getElementById(tileId);
+          if (videoElementRemoved)
+            videoElementRemoved.remove();
+        },
+        audioVideoDidStop: async (sessionStatus) => {
+          await meetingSession.audioVideo.stopAudioInput();
+
+          // Or use the destroy API to call stopAudioInput and stopVideoInput.
+          meetingSession.deviceController.destroy();
+        },
+      };
+
+      meetingSession.audioVideo.addObserver(observer);
+      meetingSession.audioVideo.start();
+      meetingSession.audioVideo.stopLocalVideoTile();
+
+    }
+    var audioControl = () => {
+      audioTrack.enabled = !audioTrack.enabled;
+      if (audioTrack.enabled) {
+        meetingSession.audioVideo.realtimeUnmuteLocalAudio();
+      } else {
+        meetingSession.audioVideo.realtimeMuteLocalAudio();
+      }
+      setAudioAction()
+    }
+    var videoControl = async () => {
+      videoTrack.enabled = !videoTrack.enabled;
+      const localVideoTile = await meetingSession.audioVideo.listVideoInputDevices();
+      // Pause the local video tile
+      //console.log(localVideoTile)
+      if (videoTrack.enabled) {
+        //localVideoTile.unpause();
+        await meetingSession.audioVideo.startVideoInput(localVideoTile[0].deviceId);
+        meetingSession.audioVideo.startLocalVideoTile();
+      } else {
+        //localVideoTile.pause();
+        hideCamera()
+      }
+      setVideoAction()
+    }
+    var endCall = () => {
+      meetingSession.audioVideo.stop();
+      window.location.reload()
+    }
+  </script>
+</body>
+
+</html>
