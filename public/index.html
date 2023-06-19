@@ -36,7 +36,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 flex justify-center" onload="checkLocalDevice()">
+<body class="flex justify-center" onload="checkLocalDevice()">
   <div class="fixed top-0 pt-10 left-0 bg-white shadow-xl w-full h-full  z-30  " id="popupConnect">
     <div class="max-w-xl mx-auto py-4 px-6 text-center">
       <h2 class="text-lg font-semibold text-center">Please allow camera and audio to continue</h2>
@@ -71,7 +71,7 @@
   </div>
   <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <div class="fixed inset-0 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
       <div class="inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 90vh; min-width: 32rem;">
         <div class="absolute h-60 top-5 right-5 rounded-md z-10">
@@ -80,7 +80,7 @@
             <!-- <tr></tr> -->
           <!-- </table> -->
         </div>
-        <div class="bg-black relative w-full h-full">
+        <div class="relative w-full h-full">
           <video id="video-tile-other" style="width: 100%; height: 100%; display: none;" src=""></video>
           <p id="timer" class="w-40 font-normal text-lg text-white ml-5 pt-5">00:00:00</p>
           <div style="background-color: transparent;" class="absolute bottom-0 z-50 left-0 right-0 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -167,7 +167,7 @@
     //console.log(meetingInfo)
     var copyToClipboard = () => {
       const dummyElement = document.createElement('textarea');
-      dummyElement.value = `localhost:3000/?meetingInfo=${btoa(JSON.stringify(meetingInfo.Meeting))}`;
+      dummyElement.value = `https://winepine.github.io/chime-app/public/?meetingInfo=${btoa(JSON.stringify(meetingInfo.Meeting))}`;
       document.body.appendChild(dummyElement);
       dummyElement.select();
       document.execCommand('copy');
