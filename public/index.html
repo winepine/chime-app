@@ -229,24 +229,16 @@
         if (document.getElementById('audioTrackIconMute')) {
           document.getElementById('audioTrackIconMute').style.display = 'none'
           document.getElementById('audioTrackIconUnMute').style.display = 'block'
-          // muteAudioButton.classList.add('bg-blue-700')
-          // muteAudioButton.classList.remove('bg-gray-900')
         }
         document.getElementById('audioTrackIconMuteCall').style.display = 'none'
         document.getElementById('audioTrackIconUnMuteCall').style.display = 'block'
-        // muteAudioButtonCall.classList.add('bg-blue-700')
-        // muteAudioButtonCall.classList.remove('bg-gray-900')
       } else {
         if (document.getElementById('audioTrackIconMute')) {
           document.getElementById('audioTrackIconMute').style.display = 'block'
           document.getElementById('audioTrackIconUnMute').style.display = 'none'
-          // muteAudioButton.classList.remove('bg-blue-700')
-          // muteAudioButton.classList.add('bg-gray-900')
         }
         document.getElementById('audioTrackIconMuteCall').style.display = 'block'
         document.getElementById('audioTrackIconUnMuteCall').style.display = 'none'
-        // muteAudioButtonCall.classList.remove('bg-blue-700')
-        // muteAudioButtonCall.classList.add('bg-gray-900')
       }
     }
     var setVideoAction = () => {
@@ -254,34 +246,18 @@
         if (document.getElementById('videoTrackIconMute')) {
           document.getElementById('videoTrackIconMute').style.display = 'none'
           document.getElementById('videoTrackIconUnMute').style.display = 'block'
-          // muteVideoButton.classList.add('bg-blue-700')
-          // muteVideoButton.classList.remove('bg-gray-900')
         }
         document.getElementById('videoTrackIconMuteCall').style.display = 'none'
         document.getElementById('videoTrackIconUnMuteCall').style.display = 'block'
-        // muteVideoButtonCall.classList.add('bg-blue-700')
-        // muteVideoButtonCall.classList.remove('bg-gray-900')
       } else {
         if (document.getElementById('videoTrackIconMute')) {
           document.getElementById('videoTrackIconMute').style.display = 'block'
           document.getElementById('videoTrackIconUnMute').style.display = 'none'
-          // muteVideoButton.classList.remove('bg-blue-700')
-          // muteVideoButton.classList.add('bg-gray-900')
         }
         document.getElementById('videoTrackIconMuteCall').style.display = 'block'
         document.getElementById('videoTrackIconUnMuteCall').style.display = 'none'
-        // muteVideoButtonCall.classList.remove('bg-blue-700')
-        // muteVideoButtonCall.classList.add('bg-gray-900')
       }
     }
-    // const form = document.getElementById("userForm");
-    // form.addEventListener("submit", (event) => {
-    //   event.preventDefault();
-    //   const formData = new FormData(form);
-    //   document.getElementById('name').innerText = document.getElementById('userName').value;
-    //   document.getElementById('popupConnect').remove()
-    //   init()
-    // });
     
     const createAttendee = async (meeting) => {
       const options = {
@@ -291,7 +267,7 @@
           "Content-Type": "application/json",
         },
       };
-      const url = baseURL + `/createAttendee/${meeting.MeetingId}`;
+      const url = `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` + `/createAttendee?id=${meeting.MeetingId}`;
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
@@ -324,7 +300,7 @@
           "Content-Type": "application/json",
         },
       };
-      const url = baseURL + "/createMeeting";
+      const url = `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` + "/createMeeting";
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
@@ -471,26 +447,6 @@
             );
             //console.log("local tile");
           } else {
-
-            // if (!document.getElementById(tileState.tileId)) {
-            //   var trs = document.querySelectorAll("#remoteVidTbl tr");
-            //   var tr = trs[trs.length - 1];
-            //   if (tr.querySelectorAll("td").length >= 2) {
-            //     const tr_node = document.createElement("tr");
-            //     tr_node.style.width = "100%";
-            //     document.getElementById("remoteVidTbl").appendChild(tr_node);
-            //     tr = tr_node;
-            //   }
-
-            //   const td_node = document.createElement("td");
-            //   tr.appendChild(td_node);
-
-            //   const vid_node = document.createElement("video");
-            //   vid_node.id = tileState.tileId;
-            //   vid_node.style.height = "auto";
-            //   vid_node.style.width = "100%";
-            //   td_node.appendChild(vid_node);
-            // }
             const videoElementNew = document.getElementById('video-tile-other');
             meetingSession.audioVideo.bindVideoElement(
               tileState.tileId,
