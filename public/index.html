@@ -34,6 +34,7 @@
   <script src="./amazon-chime-sdk.min.js"></script>
   <script src="https://kit.fontawesome.com/a926154df8.js" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <script src="./main.js"></script>
 </head>
 
 <body class="bg-black flex justify-center" onload="checkLocalDevice()">
@@ -314,7 +315,11 @@
           throw new Error("Meeting creation failed at server side.");
         }
         meetingInfo.Meeting = res.Meeting
-        createAttendee(res.Meeting)
+        const newChannelName = new Date().getTime().toString()
+        const chatChannel = await createChannel(newChannelName,'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004', 'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin')
+        console.log(chatChannel)
+        const chatUser=await setupNewChatUser('user1',chatChannel);
+        console.log({chatUser})
       } catch (error) {
         document.getElementById('errorInfo').classList.remove('hidden')
         document.getElementById('error_msg').innerText = "Error Creating Meeting /  " + error
