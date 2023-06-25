@@ -70,50 +70,72 @@
       </div>
     </div>
   </div>
-  <div class="fixed z-10 inset-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div class="inline-block bg-white rounded-lg text-left shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 55rem; min-width: 30rem;">
-        <div class="absolute h-60 top-5 right-5 rounded-md z-10">
-          <video style="height: 10vh;" id="video-tile-self" class="w-[10vw] h-full rounded-md" src=""></video>
-          <!-- <table id="remoteVidTbl" class="w-full h-full rounded-md"> -->
-            <!-- <tr></tr> -->
-          <!-- </table> -->
-        </div>
-        <div class="bg-black relative w-full h-full">
-          <p style="position: absolute;" id="timer" class="w-40 font-normal text-lg text-white ml-5 pt-5">00:00:00</p>
-          <video id="video-tile-other" style="width: 100%; height: 100%; display: none; 
-          background-size: cover;
-          " src=""></video>
-          <div style="background-color: transparent;" class="absolute bottom-0 z-50 left-0 right-0 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            
-            <div class="flex justify-center w-full">
-              <button onclick="copyToClipboard()"
-              class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full">
-              <i class="fa-solid fa-copy"></i>
-          </button>
-              <button onclick="audioControl()" id="muteAudioButtonCall"
-            class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full ml-2">
-            <i class="fa-solid fa-microphone" id="audioTrackIconUnMuteCall"></i>
-            <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMuteCall"></i>
-          </button>
-          <button onclick="videoControl()" id="muteVideoButtonCall"
-            class="btn  h-12  btn-primary  px-4 py-2  bg-white text-black rounded-full ml-2">
-            <i class="fa-solid fa-video" id="videoTrackIconUnMuteCall"></i>
-            <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMuteCall"></i>
-          </button>
-          <button onclick="endCall()" class="btn btn-primary px-4 py-2 h-12 bg-red-700 text-white rounded-full ml-2">
-            <i class="fa-solid fa-phone-slash"></i>
-          </button>
+
+    <div class="fixed z-10 inset-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        
+        <div class="inline-block bg-white rounded-lg text-left shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 55rem; min-width: 30rem;">
+          <div class="absolute h-60 top-5 right-5 rounded-md z-10">
+            <video style="height: 10vh;" id="video-tile-self" class="w-[10vw] h-full rounded-md" src=""></video>
+          </div>
+          <div class="bg-black relative w-full h-full">
+            <p style="position: absolute;" id="timer" class="w-40 font-normal text-lg text-white ml-5 pt-5">00:00:00</p>
+            <video id="video-tile-other" style="width: 100%; height: 100%; display: none; 
+            background-size: cover;
+            " src=""></video>
+            <div style="background-color: transparent;" class="absolute bottom-0 z-50 left-0 right-0 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+
+              <div class="flex justify-center w-full">
+                <button onclick="copyToClipboard()"
+                class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+                <button onclick="audioControl()" id="muteAudioButtonCall"
+              class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full ml-2">
+              <i class="fa-solid fa-microphone" id="audioTrackIconUnMuteCall"></i>
+              <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMuteCall"></i>
+            </button>
+            <button onclick="videoControl()" id="muteVideoButtonCall"
+              class="btn  h-12  btn-primary  px-4 py-2  bg-white text-black rounded-full ml-2">
+              <i class="fa-solid fa-video" id="videoTrackIconUnMuteCall"></i>
+              <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMuteCall"></i>
+            </button>
+            <button onclick="endCall()" class="btn btn-primary px-4 py-2 h-12 bg-red-700 text-white rounded-full ml-2">
+              <i class="fa-solid fa-phone-slash"></i>
+            </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
     </div>
-    <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
-  </div>
-  
+
+    <div
+    id="chatBox"
+    style="
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 20%;
+      height: 100%;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      overflow-y: scroll;
+      padding: 10px;
+      z-index: 99;
+      display: none;
+    "
+  >
+  <h2 style="padding-left: 15px">Messages</h2>
+  <div id="messages" style="display: flex; flex-direction: column">
+    <form onsubmit="event.preventDefault(); sendFunction()">
+      <input type="text" id="textBox" class="border" />
+      <button id="sendButton" type="submit">Send</button>
+    </form></div>
+</div>
   
 <!-- ----------------- -->
   <div id="errorCam"
@@ -145,6 +167,7 @@
   <script>
     var audioTrack = false
     var videoTrack = false
+    var channelArn = '',userArn = 'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin';
     const muteAudioButton = document.getElementById("muteAudioButton");
     const muteVideoButton = document.getElementById("muteVideoButton");
     const muteAudioButtonCall = document.getElementById("muteAudioButtonCall");
@@ -163,14 +186,36 @@
     if(window.location.search && window.location.search != ''){
       meetingInfo.Meeting = JSON.parse(atob(window.location.search.replace('?meetingInfo=','')))
       visitor = true
+      channelArn=meetingInfo.Meeting.channelArn
       document.getElementById('meetingCreate').classList.add('hidden')
       document.getElementById('meetingJoin').classList.remove('hidden')
     }
-      
+    const sendFunction=async()=>{
+      const textBox = document.getElementById('textBox')
+      const message = textBox.value
+      if(message && message != ''){
+        await chimeClient.sendChannelMessage({
+          ChannelArn: channelArn,
+          Content: message,
+          Persistence: 'PERSISTENT', // Allowed types are PERSISTENT and NON_PERSISTENT
+          Type: 'STANDARD', // Allowed types are STANDARD and CONTROL
+          ChimeBearer: userArn
+        }, (err, data) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log(data)
+          }
+        }
+        )
+      }
+      textBox.value = ''
+    }
     //console.log(meetingInfo)
     var copyToClipboard = () => {
       const dummyElement = document.createElement('textarea');
-      dummyElement.value = `https://winepine.github.io/chime-app/public/?meetingInfo=${btoa(JSON.stringify(meetingInfo.Meeting))}`;
+      const meetingWithChat = {...meetingInfo.Meeting,channelArn}
+      dummyElement.value = `https://winepine.github.io/chime-app/public/?meetingInfo=${btoa(JSON.stringify(meetingWithChat))}`;
       document.body.appendChild(dummyElement);
       dummyElement.select();
       document.execCommand('copy');
@@ -294,6 +339,12 @@
       document.getElementById('loading').classList.remove('hidden')
       if(visitor){
         createAttendee(meetingInfo.Meeting)
+        const chatUser=await setupNewChatUser('user2',channelArn);
+        console.log({chatUser})
+        userArn=chatUser.userArn;
+        const TemporaryUserCredentials = await getTemporaryUserCredentials(channelArn,'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin',false);
+        console.log({TemporaryUserCredentials})
+        document.getElementById('chatBox').style.display = 'block'
         return
       }
       const options = {
@@ -316,13 +367,16 @@
         }
         meetingInfo.Meeting = res.Meeting
         createAttendee(res.Meeting)
+        console.log("--NEW CHAT CHANNEL CHIME--")
         const newChannelName = new Date().getTime().toString()
         const chatChannel = await createChannel(newChannelName,'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004', 'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin')
-        console.log(chatChannel)
+        channelArn = chatChannel
         const chatUser=await setupNewChatUser('user1',chatChannel);
         console.log({chatUser})
-        const TemporaryUserCredentials = await getTemporaryUserCredentials(chatChannel,chatUser,false);
+        userArn = chatUser.userArn
+        const TemporaryUserCredentials = await getTemporaryUserCredentials(chatChannel,chatUser.userArn,false);
         console.log({TemporaryUserCredentials})
+        document.getElementById('chatBox').style.display = 'block'
       } catch (error) {
         document.getElementById('errorInfo').classList.remove('hidden')
         document.getElementById('error_msg').innerText = "Error Creating Meeting /  " + error
