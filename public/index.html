@@ -76,7 +76,7 @@
         <div class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
         
-        <div class="inline-block bg-white rounded-lg text-left shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 55rem; min-width: 30rem;">
+        <div class="inline-block bg-white rounded-lg text-left shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 48rem; min-width: 25rem;">
           <div class="absolute h-60 top-5 right-5 rounded-md z-10">
             <video style="height: 10vh;" id="video-tile-self" class="w-[10vw] h-full rounded-md" src=""></video>
           </div>
@@ -379,12 +379,12 @@
         console.log({TemporaryUserCredentials})
         document.getElementById('chatBox').style.display = 'block'
         // websocket stuff
-      var socket = new WebSocket("ws://localhost:3001"); // Replace with your server's URI
+//       var socket = new WebSocket("ws://localhost:3001"); // Replace with your server's URI
 
-socket.onopen = function (event) {
-  console.log("Connected to the WebSocket server");
-  socket.send(JSON.stringify({ action: "createMeeting" }));
-};
+// socket.onopen = function (event) {
+//   console.log("Connected to the WebSocket server");
+//   socket.send(JSON.stringify({ action: "createMeeting" }));
+// };
 // ----------------------------------------------------------
       } catch (error) {
         document.getElementById('errorInfo').classList.remove('hidden')
