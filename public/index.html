@@ -41,7 +41,7 @@
   <div class="fixed top-0 pt-10 left-0 bg-white shadow-xl w-full h-full  z-30  " id="popupConnect">
     <div class="max-w-xl mx-auto py-4 px-6 text-center">
       <h2 class="text-lg font-semibold text-center">Please allow camera and audio to continue</h2>
-      <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p>
+      <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
 
       <div class="flex justify-center mt-4">
         <video playsinline autoplay muted class="rounded-md" width="100%" height="auto" muted id="videoDemo">
@@ -57,7 +57,7 @@
           <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMute"></i>
         </button>
       </div>
-      <div class="flex justify-center mt-10 w-full">
+      <div class="flex justify-center mt-4 w-full">
         <div class="flex flex-col  w-full">
           <div class="flex flex-row justify-center w-full">
             <button onclick="createMeeting()" id="meetingCreate"
@@ -355,6 +355,7 @@
         },
       };
       const url = `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` + "/createMeeting";
+      
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
@@ -377,6 +378,14 @@
         const TemporaryUserCredentials = await getTemporaryUserCredentials(chatChannel,chatUser.userArn,false);
         console.log({TemporaryUserCredentials})
         document.getElementById('chatBox').style.display = 'block'
+        // websocket stuff
+      var socket = new WebSocket("ws://localhost:3001"); // Replace with your server's URI
+
+socket.onopen = function (event) {
+  console.log("Connected to the WebSocket server");
+  socket.send(JSON.stringify({ action: "createMeeting" }));
+};
+// ----------------------------------------------------------
       } catch (error) {
         document.getElementById('errorInfo').classList.remove('hidden')
         document.getElementById('error_msg').innerText = "Error Creating Meeting /  " + error
