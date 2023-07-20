@@ -278,18 +278,18 @@
         if (document.getElementById('audioTrackIconMute')) {
           document.getElementById('audioTrackIconMute').style.display = 'none'
           document.getElementById('audioTrackIconUnMute').style.display = 'block'
+           sendNotification("Unmuted His Microphone")
         }
         document.getElementById('audioTrackIconMuteCall').style.display = 'none'
         document.getElementById('audioTrackIconUnMuteCall').style.display = 'block'
-        sendNotification("Unmuted His Microphone")
       } else {
         if (document.getElementById('audioTrackIconMute')) {
           document.getElementById('audioTrackIconMute').style.display = 'block'
           document.getElementById('audioTrackIconUnMute').style.display = 'none'
+          sendNotification("Muted His Microphone")
         }
         document.getElementById('audioTrackIconMuteCall').style.display = 'block'
         document.getElementById('audioTrackIconUnMuteCall').style.display = 'none'
-        sendNotification("Muted His Microphone")
       }
     }
     var setVideoAction = () => {
