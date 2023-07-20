@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Amazon Chime SDK Example</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
   <style>
     #video-section {
       /* height: 100vh; */
@@ -33,76 +34,71 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
   <script src="./amazon-chime-sdk.min.js"></script>
   <script src="https://kit.fontawesome.com/a926154df8.js" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
   <script src="./main.js"></script>
 </head>
 
-<body class="bg-black flex justify-center" onload="checkLocalDevice()">
-  <div class="fixed top-0 pt-10 left-0 bg-white shadow-xl w-full h-full  z-30  " id="popupConnect">
-    <div class="max-w-xl mx-auto py-4 px-6 text-center">
-      <h2 class="text-lg font-semibold text-center">Please allow camera and audio to continue</h2>
+<body class="container" onload="checkLocalDevice()">
+  <div class="container_in" id="popupConnect">
+    <div class="container_in2">
+      <h2 class="heading_h2">Please allow camera and audio to continue</h2>
       <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
-
-      <div class="flex justify-center mt-4">
-        <video playsinline autoplay muted class="rounded-md" width="100%" height="auto" muted id="videoDemo">
+      <div class="video-container">
+        <video playsinline autoplay muted class="video-inside" width="100%" height="auto" muted id="videoDemo">
       </div>
-      <div class="flex justify-center mt-4">
-        <button id="muteAudioButton" class="btn h-12 btn-primary px-4 py-2  bg-gray-300 text-black rounded-full ml-2"
+      <div class="div-1">
+        <button id="muteAudioButton" class="button-1"
           id="audioTrackIconUnMute">
           <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
-          <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMute"></i>
+          <i class="fa-solid fa-microphone-slash" style="display: none;" id="audioTrackIconMute"></i>
         </button>
-        <button id="muteVideoButton" class="btn  h-12  btn-primary  px-4 py-2  bg-gray-300 text-black rounded-full ml-2">
+        <button id="muteVideoButton" class="button-1">
           <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
-          <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMute"></i>
+          <i class="fa-solid fa-video-slash" style="display: none;" id="videoTrackIconMute"></i>
         </button>
       </div>
-      <div class="flex justify-center mt-4 w-full">
-        <div class="flex flex-col  w-full">
-          <div class="flex flex-row justify-center w-full">
+      <div class="div-2">
+        <div class="div-3">
+          <div class="div-4">
             <button onclick="createMeeting()" id="meetingCreate"
-              class="btn text-sm btn-outline-secondary mx-5 bg-gray-300 text-black text-center border-radius rounded w-1/2  px-2 py-2 "> <i class="fa-solid fa-add mr-5"></i>Create Meeting</button>
+              class="button-2"> <i class="fa-solid fa-add mr-5"></i>Create Meeting</button>
             <button onclick="createMeeting()"  id="meetingJoin"
-              class="btn hidden text-sm btn-outline-secondary mx-5 bg-green-700 text-white text-center border-radius rounded w-1/2  px-2 py-2 "> <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting</button>
-           
+              class="button-3"> <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-    <div class="fixed z-10 inset-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="c1" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="c2">
+        <div class="c3" aria-hidden="true"></div>
+        <span class="c4" aria-hidden="true">&#8203;</span>
         
-        <div class="inline-block bg-white rounded-lg text-left shadow-xl transform transition-all align-middle w-[32rem] my-10" style="height: 48rem; min-width: 25rem;">
-          <div class="absolute h-60 top-5 right-5 rounded-md z-10">
-            <video style="height: 10vh;" id="video-tile-self" class="w-[10vw] h-full rounded-md" src=""></video>
+        <div class="c5">
+          <div class="c6">
+            <video style="height: 10vh;" id="video-tile-self" class="c7" src=""></video>
           </div>
-          <div class="bg-black relative w-full h-full">
-            <p style="position: absolute;" id="timer" class="w-40 font-normal text-lg text-white ml-5 pt-5">00:00:00</p>
-            <video id="video-tile-other" style="width: 100%; height: 100%; display: none; 
-            background-size: cover;
-            " src=""></video>
-            <div style="background-color: transparent;" class="absolute bottom-0 z-50 left-0 right-0 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-
-              <div class="flex justify-center w-full">
+          <div class="c8">
+            <p style="position: absolute;" id="timer" class="c9">00:00:00</p>
+            <video id="video-tile-other" class="video-inside-2" src=""></video>
+            <div class="c10">
+              <div class="c11">
                 <button onclick="copyToClipboard()"
-                class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full">
+                class="c12">
                 <i class="fa-solid fa-copy"></i>
             </button>
                 <button onclick="audioControl()" id="muteAudioButtonCall"
-              class="btn h-12 btn-primary px-4 py-2  bg-white text-black rounded-full ml-2">
+              class="c13">
               <i class="fa-solid fa-microphone" id="audioTrackIconUnMuteCall"></i>
-              <i class="fa-solid fa-microphone-slash hidden" id="audioTrackIconMuteCall"></i>
+              <i class="fa-solid fa-microphone-slash" style="display: none;" id="audioTrackIconMuteCall"></i>
             </button>
             <button onclick="videoControl()" id="muteVideoButtonCall"
-              class="btn  h-12  btn-primary  px-4 py-2  bg-white text-black rounded-full ml-2">
+              class="c14">
               <i class="fa-solid fa-video" id="videoTrackIconUnMuteCall"></i>
-              <i class="fa-solid fa-video-slash hidden" id="videoTrackIconMuteCall"></i>
+              <i style="display: none;" class="fa-solid fa-video-slash" id="videoTrackIconMuteCall"></i>
             </button>
-            <button onclick="endCall()" class="btn btn-primary px-4 py-2 h-12 bg-red-700 text-white rounded-full ml-2">
+            <button onclick="endCall()" class="c15">
               <i class="fa-solid fa-phone-slash"></i>
             </button>
               </div>
@@ -115,19 +111,7 @@
 
     <div
     id="chatBox"
-    style="
-      position: fixed;
-      right: 0;
-      top: 0;
-      width: 20%;
-      height: 100%;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      overflow-y: scroll;
-      padding: 10px;
-      z-index: 99;
-      display: none;
-    "
+    class="chat-style"
   >
   <h2 style="padding-left: 15px">Messages</h2>
   <div id="messages" style="display: flex; flex-direction: column">
@@ -139,29 +123,29 @@
   
 <!-- ----------------- -->
   <div id="errorCam"
-    class="hidden bg-opacity-30 fixed left-0 top-0 w-full h-full bg-gray-900 z-20 justify-center items-end text-end flex">
-    <div class="bg-red-900 w-full py-2 px-5 flex justify-center items-center">
-      <p class="text-white p-5 flex justify-center items-center"><i
-          class="fa-solid text-2xl fa-circle-exclamation pr-5"></i>Cannot access media device Camera / Audio. Please
+    class="e1">
+    <div class="e2">
+      <p class="e3"><i
+          class="fa-solid  fa-circle-exclamation e4"></i>Cannot access media device Camera / Audio. Please
         check the device setting and reload the page</p>
-      <button onclick="window.location.reload()" class="text-red-900 rounded bg-white  text-lg p-2"><i
+      <button onclick="window.location.reload()" class="e5"><i
           class="fa-solid fa-rotate-right"></i> Reload</button>
     </div>
   </div>
   <div id="errorInfo"
-    class="hidden bg-opacity-30 fixed left-0 top-0 w-full h-full bg-gray-900 z-20 justify-center items-end text-end flex">
-    <div class="bg-red-900 w-full py-2 px-5 flex justify-center items-center">
-      <p class="text-white p-5 flex justify-center items-center"><i
-          class="fa-solid text-2xl fa-circle-exclamation pr-5"></i>
+    class="e6">
+    <div class="e7">
+      <p class="e8"><i
+          class="fa-solid fa-circle-exclamation e4"></i>
         <span id="error_msg"></span></p>
-      <button onclick="window.location.reload()" class="text-red-900 rounded bg-white  text-lg p-2"><i
+      <button onclick="window.location.reload()" class="e9"><i
           class="fa-solid fa-rotate-right"></i> Reload</button>
     </div>
   </div>
-  <div class="bg-opacity-50 hidden fixed left-0 top-0 w-full h-full bg-gray-900 z-50 justify-center items-center text-center flex" id="loading">
+  <div class="e10 hidden" id="loading">
     <img src="loading.gif" class="w-40">
   </div>
-  <div id="messageDiv" class="fixed text-center z-30 bottom-0 left-0 right-0 p-4 bg-black text-white transform translate-y-full w-full transition-all duration-500">
+  <div id="messageDiv" class="e11 translate-y-full">
     Copied to Clipboard
   </div>
   <script>
