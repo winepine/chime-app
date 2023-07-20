@@ -41,7 +41,7 @@
 <body class="container" onload="checkLocalDevice()">
   <div class="container_in" id="popupConnect">
     <div class="container_in2">
-      <h2 class="heading_h2">Please allow camera and audio to continue</h2>
+      <h2 class="heading_h2" id="allow_access">Please allow camera and audio to continue</h2>
       <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
       <div class="video-container">
         <video playsinline autoplay muted class="video-inside" width="100%" height="auto" muted id="videoDemo">
@@ -407,6 +407,7 @@
           videoTrack = stream.getVideoTracks()[0];
           console.log(audioTrack, videoTrack)
           video.srcObject = stream;
+          document.getElementById('allow_access').style.display = 'none'
         })
         .catch(error => {
           console.error(error)
