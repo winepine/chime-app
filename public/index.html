@@ -1,107 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amazon Chime SDK Example</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
+    <style>
+      #video-section {
+        /* height: 100vh; */
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amazon Chime SDK Example</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
-  <style>
-    #video-section {
-      /* height: 100vh; */
-    }
+      video {
+        /* height: 100vh !important; */
+      }
+      #video-tile-self {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        background-size: cover;
+        overflow: hidden;
+      }
+      #videoDemo {
+        height: 70vh !important;
+      }
+    </style>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./amazon-chime-sdk.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/a926154df8.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
+    <script src="./main.js"></script>
+  </head>
 
-    video {
-      
-      /* height: 100vh !important; */
-    }
-    #video-tile-self {
-    min-width: 100%; 
-    min-height: 100%;
-    width: auto; 
-    height: auto; 
-    background-size: cover;
-    overflow: hidden;
-}
-    #videoDemo {
-      height: 70vh !important;
-    }
-  </style>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-  <script src="./amazon-chime-sdk.min.js"></script>
-  <script src="https://kit.fontawesome.com/a926154df8.js" crossorigin="anonymous"></script>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
-  <script src="./main.js"></script>
-</head>
+  <body>
+    <button onclick="createEmptyModal()">Open Chime Call</button>
+  </body>
 
-<body class="container" onload="checkLocalDevice()">
-  <div class="container_in" id="popupConnect">
-    <div class="container_in2">
-      <h2 class="heading_h2" id="allow_access">Please allow camera and audio to continue</h2>
-      <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
-      <div class="video-container">
-        <video playsinline autoplay muted class="video-inside" width="100%" height="auto" muted id="videoDemo">
-      </div>
-      <div class="div-1">
-        <button id="muteAudioButton" class="button-1"
-          id="audioTrackIconUnMute">
-          <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
-          <i class="fa-solid fa-microphone-slash" style="display: none;" id="audioTrackIconMute"></i>
-        </button>
-        <button id="muteVideoButton" class="button-1">
-          <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
-          <i class="fa-solid fa-video-slash" style="display: none;" id="videoTrackIconMute"></i>
-        </button>
-      </div>
-      <div class="div-2">
-        <div class="div-3">
-          <div class="div-4">
-            <button onclick="createMeeting()" id="meetingCreate"
-              class="button-2"> <i class="fa-solid fa-add mr-5"></i>Create Meeting</button>
-            <button onclick="createMeeting()"  id="meetingJoin"
-              class="button-3 hidden"> <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting</button>
+  <script>
+    let chimeCall = `
+    <div class="container">
+    <div class="container_in" id="popupConnect">
+      <div class="container_in2">
+        <h2 class="heading_h2" id="allow_access">
+          Please allow camera and audio to continue
+        </h2>
+        <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
+        <div class="video-container">
+          <video
+            playsinline
+            autoplay
+            muted
+            class="video-inside"
+            width="100%"
+            height="auto"
+            muted
+            id="videoDemo"
+          ></video>
+        </div>
+        <div class="div-1">
+          <button
+            id="muteAudioButton"
+            class="button-1"
+            id="audioTrackIconUnMute"
+          >
+            <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
+            <i
+              class="fa-solid fa-microphone-slash"
+              style="display: none"
+              id="audioTrackIconMute"
+            ></i>
+          </button>
+          <button id="muteVideoButton" class="button-1">
+            <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
+            <i
+              class="fa-solid fa-video-slash"
+              style="display: none"
+              id="videoTrackIconMute"
+            ></i>
+          </button>
+        </div>
+        <div class="div-2">
+          <div class="div-3">
+            <div class="div-4">
+              <button
+                onclick="createMeeting()"
+                id="meetingCreate"
+                class="button-2"
+              >
+                <i class="fa-solid fa-add mr-5"></i>Create Meeting
+              </button>
+              <button
+                onclick="createMeeting()"
+                id="meetingJoin"
+                class="button-3 hidden"
+              >
+                <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-    <div class="c1" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div
+      class="c1"
+      id="actualCall"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
       <div class="c2">
         <div class="c3" aria-hidden="true"></div>
         <span class="c4" aria-hidden="true">&#8203;</span>
-        
+
         <div class="c5">
-          
           <div class="c8">
-            <p style="position: absolute;" id="timer" class="c9">00:00:00</p>
+            <p style="position: absolute" id="timer" class="c9">00:00:00</p>
             <div class="c6">
-              <video style="height: 20vh;" id="video-tile-self" class="c7" src=""></video>
+              <video
+                style="height: 20vh"
+                id="video-tile-self"
+                class="c7"
+                src=""
+              ></video>
             </div>
             <video id="video-tile-other" class="video-inside-2" src=""></video>
             <div class="c10">
               <div class="c11">
-                <button onclick="copyToClipboard()"
-                class="c12">
-                <i class="fa-solid fa-copy"></i>
-            </button>
-                <button onclick="audioControl()" id="muteAudioButtonCall"
-              class="c13">
-              <i class="fa-solid fa-microphone" id="audioTrackIconUnMuteCall"></i>
-              <i class="fa-solid fa-microphone-slash" style="display: none;" id="audioTrackIconMuteCall"></i>
-            </button>
-            <button onclick="videoControl()" id="muteVideoButtonCall"
-              class="c14">
-              <i class="fa-solid fa-video" id="videoTrackIconUnMuteCall"></i>
-              <i style="display: none;" class="fa-solid fa-video-slash" id="videoTrackIconMuteCall"></i>
-            </button>
-            <button onclick="endCall()" class="c15">
-              <i class="fa-solid fa-phone-slash"></i>
-            </button>
+                <button onclick="copyToClipboard()" class="c12">
+                  <i class="fa-solid fa-copy"></i>
+                </button>
+                <button
+                  onclick="audioControl()"
+                  id="muteAudioButtonCall"
+                  class="c13"
+                >
+                  <i
+                    class="fa-solid fa-microphone"
+                    id="audioTrackIconUnMuteCall"
+                  ></i>
+                  <i
+                    class="fa-solid fa-microphone-slash"
+                    style="display: none"
+                    id="audioTrackIconMuteCall"
+                  ></i>
+                </button>
+                <button
+                  onclick="videoControl()"
+                  id="muteVideoButtonCall"
+                  class="c14"
+                >
+                  <i
+                    class="fa-solid fa-video"
+                    id="videoTrackIconUnMuteCall"
+                  ></i>
+                  <i
+                    style="display: none"
+                    class="fa-solid fa-video-slash"
+                    id="videoTrackIconMuteCall"
+                  ></i>
+                </button>
+                <button onclick="endCall()" class="c15">
+                  <i class="fa-solid fa-phone-slash"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -110,138 +178,169 @@
       <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
     </div>
 
-    <div
-    id="chatBox"
-    class="chat-style"
-  >
-  <h2 style="padding-left: 15px">Messages</h2>
-  <div id="messages" style="display: flex; flex-direction: column">
-    <form onsubmit="event.preventDefault(); sendFunction()">
-      <input type="text" id="textBox" class="border" />
-      <button id="sendButton" type="submit">Send</button>
-    </form></div>
-</div>
-  
-<!-- ----------------- -->
-  <div id="errorCam"
-    class="e1">
-    <div class="e2">
-      <p class="e3"><i
-          class="fa-solid  fa-circle-exclamation e4"></i>Cannot access media device Camera / Audio. Please
-        check the device setting and reload the page</p>
-      <button onclick="window.location.reload()" class="e5"><i
-          class="fa-solid fa-rotate-right"></i> Reload</button>
+    <div id="chatBox" class="chat-style">
+      <h2 style="padding-left: 15px">Messages</h2>
+      <div id="messages" style="display: flex; flex-direction: column">
+        <form onsubmit="event.preventDefault(); sendFunction()">
+          <input type="text" id="textBox" class="border" />
+          <button id="sendButton" type="submit">Send</button>
+        </form>
+      </div>
     </div>
-  </div>
-  <div id="errorInfo"
-    class="e6">
-    <div class="e7">
-      <p class="e8"><i
-          class="fa-solid fa-circle-exclamation e4"></i>
-        <span id="error_msg"></span></p>
-      <button onclick="window.location.reload()" class="e9"><i
-          class="fa-solid fa-rotate-right"></i> Reload</button>
+
+    <!-- ----------------- -->
+    <div id="errorCam" class="e1">
+      <div class="e2">
+        <p class="e3">
+          <i class="fa-solid fa-circle-exclamation e4"></i>Cannot access media
+          device Camera / Audio. Please check the device setting and reload the
+          page
+        </p>
+        <button onclick="window.location.reload()" class="e5">
+          <i class="fa-solid fa-rotate-right"></i> Reload
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="e10 hidden" id="loading">
-    <img src="loading.gif" class="w-40">
-  </div>
-  <div id="messageDiv" class="e11 translate-y-full">
-    Copied to Clipboard
-  </div>
-  <script>
-    var audioTrack = false
-    var videoTrack = false
-    var channelArn = '',userArn = 'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin';
-    const muteAudioButton = document.getElementById("muteAudioButton");
-    const muteVideoButton = document.getElementById("muteVideoButton");
-    const muteAudioButtonCall = document.getElementById("muteAudioButtonCall");
-    const muteVideoButtonCall = document.getElementById("muteVideoButtonCall");
+    <div id="errorInfo" class="e6">
+      <div class="e7">
+        <p class="e8">
+          <i class="fa-solid fa-circle-exclamation e4"></i>
+          <span id="error_msg"></span>
+        </p>
+        <button onclick="window.location.reload()" class="e9">
+          <i class="fa-solid fa-rotate-right"></i> Reload
+        </button>
+      </div>
+    </div>
+    <div class="e10 hidden" id="loading">
+      <img src="loading.gif" class="w-40" />
+    </div>
+    <div id="messageDiv" class="e11 translate-y-full">Copied to Clipboard</div>
+    </div>
+    `;
+    var audioTrack = false;
+
+    var videoTrack = false;
+    var channelArn = "",
+      userArn =
+        "arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin";
+    let muteAudioButton;
+    let muteVideoButton;
+    let muteAudioButtonCall;
+    let muteVideoButtonCall;
     var hours = 0;
     var minutes = 0;
     var seconds = 0;
     var timer;
-    const baseURL = window.location.origin
+    const baseURL = window.location.origin;
     var meetingSession;
     const logger = new ChimeSDK.ConsoleLogger("MyLogger");
-    const videoElementSelf = document.getElementById("video-tile-self");
-    var tries = 0
-    const meetingInfo = {}
-    var visitor = false
-    if(window.location.search && window.location.search != ''){
-      meetingInfo.Meeting = JSON.parse(atob(window.location.search.replace('?meetingInfo=','')))
-      visitor = true
-      channelArn=meetingInfo.Meeting.channelArn
-      document.getElementById('meetingCreate').classList.add('hidden')
-      document.getElementById('meetingJoin').classList.remove('hidden')
-    }
-    const sendNotification = async(content)=>{
-      await chimeClient.sendChannelMessage({
+    let videoElementSelf;
+    var tries = 0;
+    const meetingInfo = {};
+    var visitor = false;
+
+    const initCall = () => {
+      muteAudioButton = document.getElementById("muteAudioButton");
+      muteVideoButton = document.getElementById("muteVideoButton");
+      muteAudioButtonCall = document.getElementById("muteAudioButtonCall");
+      muteVideoButtonCall = document.getElementById("muteVideoButtonCall");
+      videoElementSelf = document.getElementById("video-tile-self");
+      if (window.location.search && window.location.search != "") {
+        meetingInfo.Meeting = JSON.parse(
+          atob(window.location.search.replace("?meetingInfo=", ""))
+        );
+        visitor = true;
+        channelArn = meetingInfo.Meeting.channelArn;
+        document.getElementById("meetingCreate").classList.add("hidden");
+        document.getElementById("meetingJoin").classList.remove("hidden");
+      }
+      muteAudioButton.addEventListener("click", () => {
+        audioTrack.enabled = !audioTrack.enabled;
+        setAudioAction();
+      });
+      muteVideoButton.addEventListener("click", () => {
+        videoTrack.enabled = !videoTrack.enabled;
+        setVideoAction();
+      });
+    };
+    const sendNotification = async content => {
+      await chimeClient.sendChannelMessage(
+        {
           ChannelArn: channelArn,
           Content: content,
-          Persistence: 'PERSISTENT', // Allowed types are PERSISTENT and NON_PERSISTENT
-          Type: 'STANDARD', // Allowed types are STANDARD and CONTROL
-          ChimeBearer: userArn
-        }, (err, data) => {
+          Persistence: "PERSISTENT", // Allowed types are PERSISTENT and NON_PERSISTENT
+          Type: "STANDARD", // Allowed types are STANDARD and CONTROL
+          ChimeBearer: userArn,
+        },
+        (err, data) => {
           if (err) {
-            console.log(err)
+            console.log(err);
           } else {
-            console.log(data)
+            console.log(data);
           }
         }
-        )
-    }
-    const sendFunction=async()=>{
-      const textBox = document.getElementById('textBox')
-      const message = textBox.value
-      if(message && message != ''){
-        await chimeClient.sendChannelMessage({
-          ChannelArn: channelArn,
-          Content: message,
-          Persistence: 'PERSISTENT', // Allowed types are PERSISTENT and NON_PERSISTENT
-          Type: 'STANDARD', // Allowed types are STANDARD and CONTROL
-          ChimeBearer: userArn
-        }, (err, data) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(data)
+      );
+    };
+    const sendFunction = async () => {
+      const textBox = document.getElementById("textBox");
+      const message = textBox.value;
+      if (message && message != "") {
+        await chimeClient.sendChannelMessage(
+          {
+            ChannelArn: channelArn,
+            Content: message,
+            Persistence: "PERSISTENT", // Allowed types are PERSISTENT and NON_PERSISTENT
+            Type: "STANDARD", // Allowed types are STANDARD and CONTROL
+            ChimeBearer: userArn,
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(data);
+            }
           }
-        }
-        )
+        );
       }
-      textBox.value = ''
-    }
+      textBox.value = "";
+    };
     //console.log(meetingInfo)
     var copyToClipboard = () => {
-      const dummyElement = document.createElement('textarea');
-      const meetingWithChat = {...meetingInfo.Meeting,channelArn}
-      dummyElement.value = `https://winepine.github.io/chime-app/public/?meetingInfo=${btoa(JSON.stringify(meetingWithChat))}`;
+      const dummyElement = document.createElement("textarea");
+      const meetingWithChat = { ...meetingInfo.Meeting, channelArn };
+      dummyElement.value = `https://winepine.github.io/chime-app/public/?meetingInfo=${btoa(
+        JSON.stringify(meetingWithChat)
+      )}`;
       document.body.appendChild(dummyElement);
       dummyElement.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       document.body.removeChild(dummyElement);
-      setTimeout(r=>{
-        document.getElementById('messageDiv').classList.remove('translate-y-neg-40')
-        document.getElementById('messageDiv').classList.add('translate-y-full')
-      },2000)
-      document.getElementById('messageDiv').classList.add('translate-y-neg-40')
-      document.getElementById('messageDiv').classList.remove('translate-y-full')
-    }
+      setTimeout(r => {
+        document
+          .getElementById("messageDiv")
+          .classList.remove("translate-y-neg-40");
+        document.getElementById("messageDiv").classList.add("translate-y-full");
+      }, 2000);
+      document.getElementById("messageDiv").classList.add("translate-y-neg-40");
+      document
+        .getElementById("messageDiv")
+        .classList.remove("translate-y-full");
+    };
     var startTimer = () => {
       timer = setInterval(updateTimer, 1000);
-    }
+    };
 
     var stopTimer = () => {
       clearInterval(timer);
-    }
+    };
 
     var resetTimer = () => {
       hours = 0;
       minutes = 0;
       seconds = 0;
       updateDisplay();
-    }
+    };
 
     var updateTimer = () => {
       seconds++;
@@ -254,150 +353,173 @@
         }
       }
       updateDisplay();
-    }
+    };
 
     var updateDisplay = () => {
       var formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
       document.getElementById("timer").innerHTML = formattedTime;
-    }
+    };
 
-    var pad = (value) => {
+    var pad = value => {
       return value < 10 ? "0" + value : value;
-    }
-    muteAudioButton.addEventListener("click", () => {
-      audioTrack.enabled = !audioTrack.enabled;
-      setAudioAction()
-    });
-    muteVideoButton.addEventListener("click", () => {
-      videoTrack.enabled = !videoTrack.enabled;
-      setVideoAction()
+    };
 
-    });
     var setAudioAction = () => {
       if (audioTrack.enabled) {
-        if (document.getElementById('audioTrackIconMute')) {
-          document.getElementById('audioTrackIconMute').style.display = 'none'
-          document.getElementById('audioTrackIconUnMute').style.display = 'block'
-           sendNotification("Unmuted His Microphone")
+        if (document.getElementById("audioTrackIconMute")) {
+          document.getElementById("audioTrackIconMute").style.display = "none";
+          document.getElementById("audioTrackIconUnMute").style.display =
+            "block";
+          sendNotification("Unmuted His Microphone");
         }
-        document.getElementById('audioTrackIconMuteCall').style.display = 'none'
-        document.getElementById('audioTrackIconUnMuteCall').style.display = 'block'
+        document.getElementById("audioTrackIconMuteCall").style.display =
+          "none";
+        document.getElementById("audioTrackIconUnMuteCall").style.display =
+          "block";
       } else {
-        if (document.getElementById('audioTrackIconMute')) {
-          document.getElementById('audioTrackIconMute').style.display = 'block'
-          document.getElementById('audioTrackIconUnMute').style.display = 'none'
-          sendNotification("Muted His Microphone")
+        if (document.getElementById("audioTrackIconMute")) {
+          document.getElementById("audioTrackIconMute").style.display = "block";
+          document.getElementById("audioTrackIconUnMute").style.display =
+            "none";
+          sendNotification("Muted His Microphone");
         }
-        document.getElementById('audioTrackIconMuteCall').style.display = 'block'
-        document.getElementById('audioTrackIconUnMuteCall').style.display = 'none'
+        document.getElementById("audioTrackIconMuteCall").style.display =
+          "block";
+        document.getElementById("audioTrackIconUnMuteCall").style.display =
+          "none";
       }
-    }
+    };
     var setVideoAction = () => {
       if (videoTrack.enabled) {
-        if (document.getElementById('videoTrackIconMute')) {
-          document.getElementById('videoTrackIconMute').style.display = 'none'
-          document.getElementById('videoTrackIconUnMute').style.display = 'block'
+        if (document.getElementById("videoTrackIconMute")) {
+          document.getElementById("videoTrackIconMute").style.display = "none";
+          document.getElementById("videoTrackIconUnMute").style.display =
+            "block";
         }
-        document.getElementById('videoTrackIconMuteCall').style.display = 'none'
-        document.getElementById('videoTrackIconUnMuteCall').style.display = 'block'
+        document.getElementById("videoTrackIconMuteCall").style.display =
+          "none";
+        document.getElementById("videoTrackIconUnMuteCall").style.display =
+          "block";
       } else {
-        if (document.getElementById('videoTrackIconMute')) {
-          document.getElementById('videoTrackIconMute').style.display = 'block'
-          document.getElementById('videoTrackIconUnMute').style.display = 'none'
+        if (document.getElementById("videoTrackIconMute")) {
+          document.getElementById("videoTrackIconMute").style.display = "block";
+          document.getElementById("videoTrackIconUnMute").style.display =
+            "none";
         }
-        document.getElementById('videoTrackIconMuteCall').style.display = 'block'
-        document.getElementById('videoTrackIconUnMuteCall').style.display = 'none'
+        document.getElementById("videoTrackIconMuteCall").style.display =
+          "block";
+        document.getElementById("videoTrackIconUnMuteCall").style.display =
+          "none";
       }
-    }
-    
-    const createAttendee = async (meeting) => {
+    };
+
+    const createAttendee = async meeting => {
       const options = {
         method: "GET",
-        cache: 'no-cache',
+        cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const url = `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` + `/createAttendee?id=${meeting.MeetingId}`;
+      const url =
+        `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` +
+        `/createAttendee?id=${meeting.MeetingId}`;
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
-          const eror = await response.json()
+          const eror = await response.json();
           throw new Error(eror.message);
         }
         var res = await response.json();
-        if(!res.Attendee){
+        if (!res.Attendee) {
           throw new Error("Attendee creation failed at server side.");
         }
-        meetingInfo.Attendee = res.Attendee
-        startMeeting()
+        meetingInfo.Attendee = res.Attendee;
+        startMeeting();
       } catch (error) {
-        document.getElementById('errorInfo').classList.remove('hidden')
-        document.getElementById('error_msg').innerText = "Error Creating Attendee /  " + error
+        document.getElementById("errorInfo").classList.remove("hidden");
+        document.getElementById("error_msg").innerText =
+          "Error Creating Attendee /  " + error;
       }
-    }
+    };
     var createMeeting = async () => {
-      document.getElementById('meetingCreate').innerText='Creating Meeting...'
-      
-      document.getElementById('loading').classList.remove('hidden')
-      if(visitor){
-        createAttendee(meetingInfo.Meeting)
-        const chatUser=await setupNewChatUser('user2',channelArn);
-        console.log({chatUser})
-        userArn=chatUser.userArn;
-        const TemporaryUserCredentials = await getTemporaryUserCredentials(channelArn,'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin',false);
-        console.log({TemporaryUserCredentials})
-        document.getElementById('chatBox').style.display = 'block'
-        return
+      document.getElementById("meetingCreate").innerText =
+        "Creating Meeting...";
+
+      document.getElementById("loading").classList.remove("hidden");
+      if (visitor) {
+        createAttendee(meetingInfo.Meeting);
+        const chatUser = await setupNewChatUser("user2", channelArn);
+        console.log({ chatUser });
+        userArn = chatUser.userArn;
+        const TemporaryUserCredentials = await getTemporaryUserCredentials(
+          channelArn,
+          "arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin",
+          false
+        );
+        console.log({ TemporaryUserCredentials });
+        document.getElementById("chatBox").style.display = "block";
+        return;
       }
       const options = {
         method: "GET",
-        cache: 'no-cache',
+        cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const url = `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` + "/createMeeting";
-      
+      const url =
+        `https://3d25c4zagsgrtucinslm23w3xu0hlmiu.lambda-url.us-east-1.on.aws` +
+        "/createMeeting";
+
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
-          const eror = await response.json()
+          const eror = await response.json();
           throw new Error(eror.message);
         }
         var res = await response.json();
-        if(!res.Meeting){
+        if (!res.Meeting) {
           throw new Error("Meeting creation failed at server side.");
         }
-        meetingInfo.Meeting = res.Meeting
-        createAttendee(res.Meeting)
-        console.log("--NEW CHAT CHANNEL CHIME--")
-        const newChannelName = new Date().getTime().toString()
-        const chatChannel = await createChannel(newChannelName,'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004', 'arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin')
-        channelArn = chatChannel
-        const chatUser=await setupNewChatUser('user1',chatChannel);
-        console.log({chatUser})
-        userArn = chatUser.userArn
-        const TemporaryUserCredentials = await getTemporaryUserCredentials(chatChannel,chatUser.userArn,false);
-        console.log({TemporaryUserCredentials})
-        document.getElementById('chatBox').style.display = 'block'
+        meetingInfo.Meeting = res.Meeting;
+        createAttendee(res.Meeting);
+        console.log("--NEW CHAT CHANNEL CHIME--");
+        const newChannelName = new Date().getTime().toString();
+        const chatChannel = await createChannel(
+          newChannelName,
+          "arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004",
+          "arn:aws:chime:us-east-1:701253760804:app-instance/6981e2e4-1ba5-489c-9e56-48af411e4004/user/chatAdmin"
+        );
+        channelArn = chatChannel;
+        const chatUser = await setupNewChatUser("user1", chatChannel);
+        console.log({ chatUser });
+        userArn = chatUser.userArn;
+        const TemporaryUserCredentials = await getTemporaryUserCredentials(
+          chatChannel,
+          chatUser.userArn,
+          false
+        );
+        console.log({ TemporaryUserCredentials });
+        // document.getElementById("chatBox").style.display = "block";
         // websocket stuff
-//       var socket = new WebSocket("ws://localhost:3001"); // Replace with your server's URI
+        //       var socket = new WebSocket("ws://localhost:3001"); // Replace with your server's URI
 
-// socket.onopen = function (event) {
-//   console.log("Connected to the WebSocket server");
-//   socket.send(JSON.stringify({ action: "createMeeting" }));
-// };
-// ----------------------------------------------------------
+        // socket.onopen = function (event) {
+        //   console.log("Connected to the WebSocket server");
+        //   socket.send(JSON.stringify({ action: "createMeeting" }));
+        // };
+        // ----------------------------------------------------------
       } catch (error) {
-        document.getElementById('errorInfo').classList.remove('hidden')
-        document.getElementById('error_msg').innerText = "Error Creating Meeting /  " + error
+        document.getElementById("errorInfo").classList.remove("hidden");
+        document.getElementById("error_msg").innerText =
+          "Error Creating Meeting /  " + error;
       }
-    }
+    };
     var checkLocalDevice = () => {
       const video = document.getElementById("videoDemo");
       const constraints = {
-        video: {width: 180, height: 320},
+        video: { width: 180, height: 320 },
         audio: true,
       };
       navigator.mediaDevices
@@ -405,19 +527,20 @@
         .then(stream => {
           audioTrack = stream.getAudioTracks()[0];
           videoTrack = stream.getVideoTracks()[0];
-          console.log(audioTrack, videoTrack)
+          console.log(audioTrack, videoTrack);
           video.srcObject = stream;
-          document.getElementById('allow_access').style.display = 'none'
+          document.getElementById("allow_access").style.display = "none";
         })
         .catch(error => {
-          console.error(error)
-          document.getElementById('errorCam').classList.remove('hidden')
-        })
-    }
-    
+          console.error(error);
+          document.getElementById("errorCam").classList.remove("hidden");
+        });
+    };
+
     async function startMeeting() {
-      document.getElementById('popupConnect').remove()
-      document.getElementById('loading').classList.add('hidden')
+      document.getElementById("popupConnect").remove();
+      document.getElementById("loading").classList.add("hidden");
+      document.getElementById("actualCall").style.display = "block";
       const meeting = meetingInfo.Meeting;
       const attendee = meetingInfo.Attendee;
 
@@ -435,7 +558,8 @@
       );
 
       //console.log("meetingSession ", meetingSession);
-      const presentAttendeeId = meetingSession.configuration.credentials.attendeeId;
+      const presentAttendeeId =
+        meetingSession.configuration.credentials.attendeeId;
       //console.log("presentAttendeeId - ", presentAttendeeId);
       const browserBehaviour = new ChimeSDK.DefaultBrowserBehavior();
       //console.log("supportSetSinkId is ", browserBehaviour.supportsSetSinkId());
@@ -447,7 +571,8 @@
     }
     async function initLocalDevices() {
       try {
-        const videoInputs = await meetingSession.audioVideo.listVideoInputDevices();
+        const videoInputs =
+          await meetingSession.audioVideo.listVideoInputDevices();
         for (let i = 0; i < videoInputs.length; i++) {
           const option = document.createElement("option");
           option.text = videoInputs[i].label || "Audio-in \${i + 1}";
@@ -461,7 +586,9 @@
             "15"
           ); // 540p 15fps
           await meetingSession.audioVideo.setVideoMaxBandwidthKbps(1400);
-          await meetingSession.audioVideo.startVideoInput(videoInputs[0].deviceId); // Selecting the first camera device for simplicity v3
+          await meetingSession.audioVideo.startVideoInput(
+            videoInputs[0].deviceId
+          ); // Selecting the first camera device for simplicity v3
           const qualitySetting =
             await meetingSession.audioVideo.getVideoInputQualitySettings();
           //console.log("video quality publishing is ", qualitySetting);
@@ -471,26 +598,33 @@
         }
 
         // microphone
-        const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
+        const audioInputs =
+          await meetingSession.audioVideo.listAudioInputDevices();
         if (audioInputs[0] && audioInputs[0].deviceId != "") {
-          await meetingSession.audioVideo.startAudioInput(audioInputs[0].deviceId);
+          await meetingSession.audioVideo.startAudioInput(
+            audioInputs[0].deviceId
+          );
         } else if (audioInputs[0] && audioInputs[0].groupId != "") {
-          await meetingSession.audioVideo.startAudioInput(audioInputs[0].groupId);
+          await meetingSession.audioVideo.startAudioInput(
+            audioInputs[0].groupId
+          );
         } else {
           await meetingSession.audioVideo.startAudioInput(null);
         }
-
       } catch (err) {
         //console.log("Try Catch Error - unable to acquire device - ", err);
       }
 
-      await meetingSession.audioVideo.startVideoPreviewForVideoInput(videoElementSelf);
-      joinMeeting()
-
+      await meetingSession.audioVideo.startVideoPreviewForVideoInput(
+        videoElementSelf
+      );
+      joinMeeting();
     }
 
     async function joinMeeting() {
-      await meetingSession.audioVideo.stopVideoPreviewForVideoInput(videoElementSelf);
+      await meetingSession.audioVideo.stopVideoPreviewForVideoInput(
+        videoElementSelf
+      );
       const audioOutputElement = document.getElementById("audio");
       try {
         await meetingSession.audioVideo.bindAudioElement(audioOutputElement);
@@ -501,10 +635,11 @@
         audioVideoDidStart: () => {
           logger.debug("Started");
           //console.log("audioVideoDidStart fired");
-          startTimer()
+          startTimer();
           meetingSession.audioVideo.startLocalVideoTile();
           if (!videoTrack.enabled) {
-            const localVideoTile = meetingSession.audioVideo.getLocalVideoTile();
+            const localVideoTile =
+              meetingSession.audioVideo.getLocalVideoTile();
             //console.log(localVideoTile)
             localVideoTile.pause();
           }
@@ -512,7 +647,7 @@
             meetingSession.audioVideo.realtimeMuteLocalAudio();
           }
         },
-        videoTileDidUpdate: (tileState) => {
+        videoTileDidUpdate: tileState => {
           //console.log("videoTileDidUpdate fired", tileState);
           if (!tileState.boundAttendeeId) {
             return;
@@ -524,7 +659,7 @@
             );
             //console.log("local tile");
           } else {
-            const videoElementNew = document.getElementById('video-tile-other');
+            const videoElementNew = document.getElementById("video-tile-other");
             meetingSession.audioVideo.bindVideoElement(
               tileState.tileId,
               videoElementNew
@@ -532,12 +667,12 @@
             videoElementNew.style.display = "block";
           }
         },
-        videoTileWasRemoved: (tileId) => {
-          const videoElementRemoved = document.getElementById('video-tile-other');
-          if (videoElementRemoved)
-            videoElementRemoved.style.display = "none";
+        videoTileWasRemoved: tileId => {
+          const videoElementRemoved =
+            document.getElementById("video-tile-other");
+          if (videoElementRemoved) videoElementRemoved.style.display = "none";
         },
-        audioVideoDidStop: async (sessionStatus) => {
+        audioVideoDidStop: async sessionStatus => {
           await meetingSession.audioVideo.stopAudioInput();
 
           // Or use the destroy API to call stopAudioInput and stopVideoInput.
@@ -548,7 +683,6 @@
       meetingSession.audioVideo.addObserver(observer);
       meetingSession.audioVideo.start();
       meetingSession.audioVideo.stopLocalVideoTile();
-
     }
     var audioControl = () => {
       audioTrack.enabled = !audioTrack.enabled;
@@ -557,29 +691,52 @@
       } else {
         meetingSession.audioVideo.realtimeMuteLocalAudio();
       }
-      setAudioAction()
-    }
+      setAudioAction();
+    };
     var videoControl = async () => {
       videoTrack.enabled = !videoTrack.enabled;
-      const localVideoTile = await meetingSession.audioVideo.listVideoInputDevices();
+      const localVideoTile =
+        await meetingSession.audioVideo.listVideoInputDevices();
       // Pause the local video tile
       //console.log(localVideoTile)
       if (videoTrack.enabled) {
         //localVideoTile.unpause();
-        await meetingSession.audioVideo.startVideoInput(localVideoTile[0].deviceId);
+        await meetingSession.audioVideo.startVideoInput(
+          localVideoTile[0].deviceId
+        );
         meetingSession.audioVideo.startLocalVideoTile();
       } else {
         //localVideoTile.pause();
-        hideCamera()
+        hideCamera();
       }
-      setVideoAction()
-    }
+      setVideoAction();
+    };
     var endCall = () => {
       meetingSession.audioVideo.stop();
-      window.location.reload()
-    }
+      window.location.reload();
+    };
+    const deleteModal = () => {
+      endCall();
+      document.getElementById("modal").remove();
+    };
+    const createEmptyModal = () => {
+      const modalContainer = document.createElement("div");
+      modalContainer.setAttribute("id", "modal");
+      modalContainer.setAttribute("class", "modal");
+      const modalContent = document.createElement("div");
+      modalContent.setAttribute("class", "modal-content");
+      modalContainer.style.display = "block";
+      window.onclick = function (event) {
+        if (event.target == modalContainer) {
+          deleteEmptyModal();
+        }
+      };
+      modalContent.innerHTML = `
+      <span class="close" onclick="deleteModal();">&times;</span>`;
+      modalContent.innerHTML += chimeCall;
+      modalContainer.appendChild(modalContent);
+      document.body.appendChild(modalContainer);
+      checkLocalDevice();
+    };
   </script>
-</body>
-
-
 </html>
