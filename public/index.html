@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amazon Chime SDK Example</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="texts.css" />
     <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet"> -->
     <style>
       #video-section {
@@ -182,13 +183,44 @@
     </div>
 
     <div id="chatBox" class="chat-style">
-      <h2 style="padding-left: 15px">Messages</h2>
-      <div id="messages" style="display: flex; flex-direction: column">
-        <form onsubmit="event.preventDefault(); sendFunction()">
-          <input type="text" id="textBox" class="border" />
-          <button id="sendButton" type="submit">Send</button>
-        </form>
+      <div class="t1">
+  <div class="t2">
+    <!-- user info -->
+    <div class="t3">
+    </div>
+    <!-- end user info -->
+    <!-- chat box action -->
+    <div style="margin:10px;">
+      <button class="t7" type="button" onclick="toggleMessages();">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <!-- end chat box action -->
+  </div>
+
+  <div class="t8" id="messages">
+
+  </div>
+
+  <form onsubmit="event.preventDefault(); sendFunction()">
+  <div class="t20">
+    <!-- end chat input action -->
+
+    <div class="t22">
+      <input class="t23" id="textBox" type="text" value="" placeholder="Message.." autofocus />
+    </div>
+
+    <!-- chat send action -->
+
+      <button class="t24" id="sendButton" type="submit">
+        <i class="fa-regular fa-paper-plane"></i>
+      </button>
+      
+      <!-- end chat send action -->
       </div>
+      </form>
+</div>
+      
     </div>
 
     <!-- ----------------- -->
