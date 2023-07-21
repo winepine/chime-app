@@ -223,7 +223,7 @@
     `;
     let messagesVisible = false;
     var audioTrack = false;
-
+    let user;
     var videoTrack = false;
     var channelArn = "",
       userArn =
@@ -458,6 +458,7 @@
       if (visitor) {
         createAttendee(meetingInfo.Meeting);
         const chatUser = await setupNewChatUser("user2", channelArn);
+        user = "user2";
         console.log({ chatUser });
         userArn = chatUser.userArn;
         const TemporaryUserCredentials = await getTemporaryUserCredentials(
@@ -501,6 +502,7 @@
         );
         channelArn = chatChannel;
         const chatUser = await setupNewChatUser("user1", chatChannel);
+        user = "user1";
         console.log({ chatUser });
         userArn = chatUser.userArn;
         const TemporaryUserCredentials = await getTemporaryUserCredentials(
@@ -659,6 +661,7 @@
           }
         },
         videoTileDidUpdate: tileState => {
+          console.log("Someone Joined");
           //console.log("videoTileDidUpdate fired", tileState);
           if (!tileState.boundAttendeeId) {
             return;
@@ -679,6 +682,7 @@
           }
         },
         videoTileWasRemoved: tileId => {
+          console.log("Someone Left");
           const videoElementRemoved =
             document.getElementById("video-tile-other");
           if (videoElementRemoved) videoElementRemoved.style.display = "none";
