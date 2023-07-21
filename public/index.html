@@ -134,7 +134,10 @@
             <video id="video-tile-other" class="video-inside-2" src=""></video>
             <div class="c10">
               <div class="c11">
-                <button onclick="copyToClipboard()" class="c12">
+                <button onclick="toggleMessages();" class="c12">
+                  <i class="fa-solid fa-message"></i>
+                </button>
+                <button onclick="copyToClipboard()" class="c13">
                   <i class="fa-solid fa-copy"></i>
                 </button>
                 <button
@@ -218,6 +221,7 @@
     <div id="messageDiv" class="e11 translate-y-full">Copied to Clipboard</div>
     </div>
     `;
+    let messagesVisible = false;
     var audioTrack = false;
 
     var videoTrack = false;
@@ -546,6 +550,7 @@
       document.getElementById("loading").classList.add("hidden");
       document.getElementById("actualCall").style.display = "block";
       videoElementSelf = document.getElementById("video-tile-self");
+      document.getElementById("chatBox").style.display = "block";
 
       const meeting = meetingInfo.Meeting;
       const attendee = meetingInfo.Attendee;
@@ -725,6 +730,15 @@
       endCall();
       document.getElementById("modal").remove();
     };
+    const toggleMessages = () => {
+      if (messagesVisible) {
+        document.getElementById("chatBox").style.transform = "translateX(100%)";
+        messagesVisible = false;
+      } else {
+        document.getElementById("chatBox").style.transform = "translateX(0%)";
+        messagesVisible = true;
+      }
+    };
     const createEmptyModal = () => {
       const modalContainer = document.createElement("div");
       modalContainer.setAttribute("id", "modal");
@@ -739,7 +753,7 @@
       };
       modalContent.innerHTML = `
       <span class="close" onclick="deleteModal();">&times;</span>`;
-      modalContent.innerHTML += chimeCall;
+      modalContent.innerHTML = chimeCall;
       modalContainer.appendChild(modalContent);
       document.body.appendChild(modalContainer);
       checkLocalDevice();

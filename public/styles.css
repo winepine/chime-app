@@ -6,6 +6,7 @@
 .container {
   display: flex;
   justify-content: center;
+  overflow-x: hidden;
 }
 .container_in {
   display: flex;
@@ -120,6 +121,7 @@
   bottom: 0;
   left: 0;
   z-index: 10;
+  width: 100%;
 }
 .c2 {
   display: flex;
@@ -280,17 +282,21 @@
   background-size: cover;
 }
 .chat-style {
-  position: fixed;
+  /* position: fixed; */
   right: 0;
   top: 0;
-  width: 20%;
-  height: 100%;
+  width: 40%;
+  /* height: 100%; */
   background-color: #fff;
   border: 1px solid #ccc;
   overflow-y: scroll;
   padding: 10px;
   z-index: 99;
   display: none;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  transform: translateX(100%);
 }
 .e1 {
   display: flex;
@@ -436,7 +442,7 @@
 .modal-content {
   background-color: #fefefe;
   margin: 1% auto; /* 15% from the top and centered */
-  padding: 20px;
+  /* padding: 20px; */
   border: 1px solid #888;
   width: 90%; /* Could be more or less, depending on screen size */
 }
