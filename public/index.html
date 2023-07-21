@@ -255,6 +255,7 @@
         document.getElementById("meetingCreate").classList.add("hidden");
         document.getElementById("meetingJoin").classList.remove("hidden");
       }
+
       muteAudioButton.addEventListener("click", () => {
         audioTrack.enabled = !audioTrack.enabled;
         setAudioAction();
@@ -265,22 +266,24 @@
       });
     };
     const sendNotification = async content => {
-      await chimeClient.sendChannelMessage(
-        {
-          ChannelArn: channelArn,
-          Content: content,
-          Persistence: "PERSISTENT", // Allowed types are PERSISTENT and NON_PERSISTENT
-          Type: "STANDARD", // Allowed types are STANDARD and CONTROL
-          ChimeBearer: userArn,
-        },
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(data);
+      if (chimeClient) {
+        await chimeClient.sendChannelMessage(
+          {
+            ChannelArn: channelArn,
+            Content: content,
+            Persistence: "PERSISTENT", // Allowed types are PERSISTENT and NON_PERSISTENT
+            Type: "STANDARD", // Allowed types are STANDARD and CONTROL
+            ChimeBearer: userArn,
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(data);
+            }
           }
-        }
-      );
+        );
+      }
     };
     const sendFunction = async () => {
       const textBox = document.getElementById("textBox");
@@ -365,6 +368,7 @@
     };
 
     var setAudioAction = () => {
+      console.log(audioTrack.enabled);
       if (audioTrack.enabled) {
         if (document.getElementById("audioTrackIconMute")) {
           document.getElementById("audioTrackIconMute").style.display = "none";
@@ -739,6 +743,7 @@
       modalContainer.appendChild(modalContent);
       document.body.appendChild(modalContainer);
       checkLocalDevice();
+      initCall();
     };
   </script>
 </html>
