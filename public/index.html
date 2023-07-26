@@ -629,7 +629,8 @@
           option.text = videoInputs[i].label || "Audio-in \${i + 1}";
           option.value = videoInputs[i].deviceId;
         }
-
+        let test = videoInputs[0] && videoInputs[0].deviceId != "";
+        console.log({ test });
         if (videoInputs[0] && videoInputs[0].deviceId != "") {
           await meetingSession.audioVideo.chooseVideoInputQuality(
             "960",
