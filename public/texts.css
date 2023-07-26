@@ -178,3 +178,8 @@
     background-color: #eef2ff;
   }
 }
+@media screen and (max-width: 768px) {
+  .t8 {
+    padding-bottom: 0;
+  }
+}

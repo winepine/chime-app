@@ -456,3 +456,28 @@
   text-decoration: none;
   cursor: pointer;
 }
+@media screen and (max-width: 768px) {
+  /* Set the height of the element to 100% */
+  /* You can replace 'element-selector' with the actual selector for your element */
+  .modal-content {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+  .modal {
+    overflow: hidden;
+  }
+  .c5 {
+    margin-top: 0;
+  }
+  .c2 {
+    padding-top: 0;
+    background-color: black;
+  }
+  .chat-style {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
