@@ -456,6 +456,16 @@
   text-decoration: none;
   cursor: pointer;
 }
+.cross {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  float: right;
+  display: none;
+  :hover {
+    background-color: #eef2ff;
+  }
+}
 @media screen and (max-width: 768px) {
   /* Set the height of the element to 100% */
   /* You can replace 'element-selector' with the actual selector for your element */
@@ -479,5 +489,8 @@
     position: fixed;
     width: 100%;
     height: 100%;
+  }
+  .cross {
+    display: block;
   }
 }

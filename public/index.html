@@ -49,6 +49,12 @@
     <div class="container">
     <div class="container_in" id="popupConnect">
       <div class="container_in2">
+        <div style="margin:10px;">
+          <button class="cross" type="button" onclick="deleteEmptyModal();">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <br/>
         <h2 class="heading_h2" id="allow_access">
           Please allow camera and audio to continue
         </h2>
@@ -774,6 +780,9 @@
         document.getElementById("chatBox").style.transform = "translateX(0%)";
         messagesVisible = true;
       }
+    };
+    const deleteEmptyModal = () => {
+      document.getElementById("modal").remove();
     };
     const createEmptyModal = () => {
       const modalContainer = document.createElement("div");
