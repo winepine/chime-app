@@ -23,7 +23,7 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04); */
 }
 .container_in2 {
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
   padding-bottom: 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -478,9 +478,13 @@
     background-color: #eef2ff;
   }
 }
+.desktop-only {
+  display: block;
+}
 @media screen and (max-width: 768px) {
-  /* Set the height of the element to 100% */
-  /* You can replace 'element-selector' with the actual selector for your element */
+  .desktop-only {
+    display: none;
+  }
   .c8 {
     position: initial;
   }
