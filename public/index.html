@@ -51,7 +51,7 @@
 
   <script>
     let chimeCall = `
-    <div class="tSrNa gsCWf EJVsl zsSLy desktop-only">
+    <div id="top-bar" class="tSrNa gsCWf EJVsl zsSLy desktop-only">
                         <h1 class="USKIn">Private Call</h1>
                         <div class="wcrwV gsCWf EJVsl">
                             <div class="AYaOY TNIio UYvZu gsCWf EJVsl OtrSK DeYlt">
@@ -710,7 +710,8 @@
       await meetingSession.audioVideo.startVideoPreviewForVideoInput(
         videoElementSelf
       );
-      document.getElementById("desktop-only").style.display = "none !important";
+      // document.getElementById("desktop-only").style.display = "none !important";
+      document.getElementById("top-bar").classList.remove("gsCWf");
 
       joinMeeting();
     }
