@@ -201,6 +201,17 @@
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 400;
+  display: block;
+  color: #ffffff;
+}
+.c9-mobile {
+  display: none;
+  padding-top: 1.25rem;
+  margin-left: 1.25rem;
+  width: 10rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 400;
   color: #ffffff;
 }
 .c10 {
@@ -496,6 +507,12 @@
     height: 100%;
   }
   .cross {
+    display: block;
+  }
+  .c9 {
+    display: none;
+  }
+  .c9-mobile {
     display: block;
   }
 }
