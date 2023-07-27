@@ -123,7 +123,7 @@
       role="dialog"
       aria-modal="true"
     >
-    <p style="position: absolute" id="timer" class="c9-mobile">00:00:00</p>
+    <p style="position: absolute" id="timer-mobile" class="c9-mobile">00:00:00</p>
       <div class="c2">
         <div class="c3" aria-hidden="true"></div>
         <span class="c4" aria-hidden="true">&#8203;</span>
@@ -404,6 +404,7 @@
     var updateDisplay = () => {
       var formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
       document.getElementById("timer").innerHTML = formattedTime;
+      document.getElementById("timer-mobile").innerHTML = formattedTime;
     };
 
     var pad = value => {
