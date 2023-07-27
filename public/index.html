@@ -46,220 +46,220 @@
 
   <script>
     let chimeCall = `
-    <div class="container">
-    <div class="container_in" id="popupConnect">
-      <div class="container_in2">
-        <div style="margin:10px;">
-          <button class="cross" type="button" onclick="deleteEmptyModal();">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <br/>
-        <h2 class="heading_h2" id="allow_access">
-          Please allow camera and audio to continue
-        </h2>
-        <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
-        <div class="video-container">
-          <video
-            playsinline
-            autoplay
-            muted
-            class="video-inside"
-            width="100%"
-            height="auto"
-            muted
-            id="videoDemo"
-          ></video>
-        </div>
-        <div class="div-1">
-          <button
-            id="muteAudioButton"
-            class="button-1"
-            id="audioTrackIconUnMute"
-          >
-            <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
-            <i
-              class="fa-solid fa-microphone-slash"
-              style="display: none"
-              id="audioTrackIconMute"
-            ></i>
-          </button>
-          <button id="muteVideoButton" class="button-1">
-            <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
-            <i
-              class="fa-solid fa-video-slash"
-              style="display: none"
-              id="videoTrackIconMute"
-            ></i>
-          </button>
-        </div>
-        <div class="div-2">
-          <div class="div-3">
-            <div class="div-4">
-              <button
-                onclick="createMeeting()"
-                id="meetingCreate"
-                class="button-2"
-              >
-                <i class="fa-solid fa-add mr-5"></i>Create Meeting
-              </button>
-              <button
-                onclick="createMeeting()"
-                id="meetingJoin"
-                class="button-3 hidden"
-              >
-                <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting
+        <div class="container">
+        <div class="container_in" id="popupConnect">
+          <div class="container_in2">
+            <div style="margin:10px;">
+              <button class="cross" type="button" onclick="deleteEmptyModal();">
+                <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="c1"
-      id="actualCall"
-      aria-labelledby="modal-title"
-      role="dialog"
-      aria-modal="true"
-    >
-    <p style="position: absolute" id="timer-mobile" class="c9-mobile">00:00:00</p>
-      <div class="c2">
-        <div class="c3" aria-hidden="true"></div>
-        <span class="c4" aria-hidden="true">&#8203;</span>
-
-        <div class="c5">
-          <div class="c8">
-            <p style="position: absolute" id="timer" class="c9">00:00:00</p>
-            <div class="c6">
+            <br/>
+            <h2 class="heading_h2" id="allow_access">
+              Please allow camera and audio to continue
+            </h2>
+            <!-- <p class="text-sm">We need to access your camera and microphone to provide the best possible experience.</p> -->
+            <div class="video-container">
               <video
-                style="height: 20vh"
-                id="video-tile-self"
-                class="c7"
-                src=""
+                playsinline
+                autoplay
+                muted
+                class="video-inside"
+                width="100%"
+                height="auto"
+                muted
+                id="videoDemo"
               ></video>
             </div>
-            <video id="video-tile-other" class="video-inside-2" src=""></video>
-            <div class="c10">
-              <div class="c11">
-                <button onclick="toggleMessages();" class="c12">
-                  <i class="fa-solid fa-message"></i>
-                </button>
-                <button onclick="copyToClipboard()" class="c13">
-                  <i class="fa-solid fa-copy"></i>
-                </button>
-                <button
-                  onclick="audioControl()"
-                  id="muteAudioButtonCall"
-                  class="c13"
-                >
-                  <i
-                    class="fa-solid fa-microphone"
-                    id="audioTrackIconUnMuteCall"
-                  ></i>
-                  <i
-                    class="fa-solid fa-microphone-slash"
-                    style="display: none"
-                    id="audioTrackIconMuteCall"
-                  ></i>
-                </button>
-                <button
-                  onclick="videoControl()"
-                  id="muteVideoButtonCall"
-                  class="c14"
-                >
-                  <i
-                    class="fa-solid fa-video"
-                    id="videoTrackIconUnMuteCall"
-                  ></i>
-                  <i
-                    style="display: none"
-                    class="fa-solid fa-video-slash"
-                    id="videoTrackIconMuteCall"
-                  ></i>
-                </button>
-                <button onclick="endCall()" class="c15">
-                  <i class="fa-solid fa-phone-slash"></i>
-                </button>
+            <div class="div-1">
+              <button
+                id="muteAudioButton"
+                class="button-1"
+                id="audioTrackIconUnMute"
+              >
+                <i class="fa-solid fa-microphone" id="audioTrackIconUnMute"></i>
+                <i
+                  class="fa-solid fa-microphone-slash"
+                  style="display: none"
+                  id="audioTrackIconMute"
+                ></i>
+              </button>
+              <button id="muteVideoButton" class="button-1">
+                <i class="fa-solid fa-video" id="videoTrackIconUnMute"></i>
+                <i
+                  class="fa-solid fa-video-slash"
+                  style="display: none"
+                  id="videoTrackIconMute"
+                ></i>
+              </button>
+            </div>
+            <div class="div-2">
+              <div class="div-3">
+                <div class="div-4">
+                  <button
+                    onclick="createMeeting()"
+                    id="meetingCreate"
+                    class="button-2"
+                  >
+                    <i class="fa-solid fa-add mr-5"></i>Create Meeting
+                  </button>
+                  <button
+                    onclick="createMeeting()"
+                    id="meetingJoin"
+                    class="button-3 hidden"
+                  >
+                    <i class="fa-regular fa-handshake mr-5"> </i>Join Meeting
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div
+          class="c1"
+          id="actualCall"
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+        <p style="position: absolute" id="timer-mobile" class="c9-mobile">00:00:00</p>
+          <div class="c2">
+            <div class="c3" aria-hidden="true"></div>
+            <span class="c4" aria-hidden="true">&#8203;</span>
+
+            <div class="c5">
+              <div class="c8">
+                <p style="position: absolute" id="timer" class="c9">00:00:00</p>
+                <div class="c6">
+                  <video
+                    style="height: 20vh"
+                    id="video-tile-self"
+                    class="c7"
+                    src=""
+                  ></video>
+                </div>
+                <video id="video-tile-other" class="video-inside-2" src=""></video>
+                <div class="c10">
+                  <div class="c11">
+                    <button onclick="toggleMessages();" class="c12">
+                      <i class="fa-solid fa-message"></i>
+                    </button>
+                    <button onclick="copyToClipboard()" class="c13">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <button
+                      onclick="audioControl()"
+                      id="muteAudioButtonCall"
+                      class="c13"
+                    >
+                      <i
+                        class="fa-solid fa-microphone"
+                        id="audioTrackIconUnMuteCall"
+                      ></i>
+                      <i
+                        class="fa-solid fa-microphone-slash"
+                        style="display: none"
+                        id="audioTrackIconMuteCall"
+                      ></i>
+                    </button>
+                    <button
+                      onclick="videoControl()"
+                      id="muteVideoButtonCall"
+                      class="c14"
+                    >
+                      <i
+                        class="fa-solid fa-video"
+                        id="videoTrackIconUnMuteCall"
+                      ></i>
+                      <i
+                        style="display: none"
+                        class="fa-solid fa-video-slash"
+                        id="videoTrackIconMuteCall"
+                      ></i>
+                    </button>
+                    <button onclick="endCall()" class="c15">
+                      <i class="fa-solid fa-phone-slash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
+        </div>
+
+        <div id="chatBox" class="chat-style">
+          <div class="t1">
+      <div class="t2">
+        <!-- user info -->
+        <div class="t3">
+        </div>
+        <!-- end user info -->
+        <!-- chat box action -->
+        <div style="margin:10px;">
+          <button class="t7" type="button" onclick="toggleMessages();">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <!-- end chat box action -->
       </div>
-      <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
-    </div>
 
-    <div id="chatBox" class="chat-style">
-      <div class="t1">
-  <div class="t2">
-    <!-- user info -->
-    <div class="t3">
-    </div>
-    <!-- end user info -->
-    <!-- chat box action -->
-    <div style="margin:10px;">
-      <button class="t7" type="button" onclick="toggleMessages();">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    <!-- end chat box action -->
-  </div>
+      <div class="t8" id="messages">
 
-  <div class="t8" id="messages">
-
-  </div>
-
-  <form onsubmit="event.preventDefault(); sendFunction()">
-  <div class="t20">
-    <!-- end chat input action -->
-
-    <div class="t22">
-      <input class="t23" id="textBox" type="text" value="" placeholder="Message.." autofocus />
-    </div>
-
-    <!-- chat send action -->
-
-      <button class="t24" id="sendButton" type="submit">
-        <i class="fa-regular fa-paper-plane"></i>
-      </button>
-      
-      <!-- end chat send action -->
       </div>
-      </form>
-</div>
-      
+
+      <form onsubmit="event.preventDefault(); sendFunction()">
+      <div class="t20">
+        <!-- end chat input action -->
+
+        <div class="t22">
+          <input class="t23" id="textBox" type="text" value="" placeholder="Message.." autofocus />
+        </div>
+
+        <!-- chat send action -->
+
+          <button class="t24" id="sendButton" type="submit">
+            <i class="fa-regular fa-paper-plane"></i>
+          </button>
+
+          <!-- end chat send action -->
+          </div>
+          </form>
     </div>
 
-    <!-- ----------------- -->
-    <div id="errorCam" class="e1">
-      <div class="e2">
-        <p class="e3">
-          <i class="fa-solid fa-circle-exclamation e4"></i>Cannot access media
-          device Camera / Audio. Please check the device setting and reload the
-          page
-        </p>
-        <button onclick="window.location.reload()" class="e5">
-          <i class="fa-solid fa-rotate-right"></i> Reload
-        </button>
-      </div>
-    </div>
-    <div id="errorInfo" class="e6">
-      <div class="e7">
-        <p class="e8">
-          <i class="fa-solid fa-circle-exclamation e4"></i>
-          <span id="error_msg"></span>
-        </p>
-        <button onclick="window.location.reload()" class="e9">
-          <i class="fa-solid fa-rotate-right"></i> Reload
-        </button>
-      </div>
-    </div>
-    <div class="e10 hidden" id="loading">
-      <img src="loading.gif" class="w-40" />
-    </div>
-    <div id="messageDiv" class="e11 translate-y-full">Copied to Clipboard</div>
-    </div>
-    `;
+        </div>
+
+        <!-- ----------------- -->
+        <div id="errorCam" class="e1">
+          <div class="e2">
+            <p class="e3">
+              <i class="fa-solid fa-circle-exclamation e4"></i>Cannot access media
+              device Camera / Audio. Please check the device setting and reload the
+              page
+            </p>
+            <button onclick="window.location.reload()" class="e5">
+              <i class="fa-solid fa-rotate-right"></i> Reload
+            </button>
+          </div>
+        </div>
+        <div id="errorInfo" class="e6">
+          <div class="e7">
+            <p class="e8">
+              <i class="fa-solid fa-circle-exclamation e4"></i>
+              <span id="error_msg"></span>
+            </p>
+            <button onclick="window.location.reload()" class="e9">
+              <i class="fa-solid fa-rotate-right"></i> Reload
+            </button>
+          </div>
+        </div>
+        <div class="e10 hidden" id="loading">
+          <img src="loading.gif" class="w-40" />
+        </div>
+        <div id="messageDiv" class="e11 translate-y-full">Copied to Clipboard</div>
+        </div>
+        `;
     let messagesVisible = false;
     var audioTrack = false;
     let user;
@@ -568,14 +568,28 @@
     };
     var checkLocalDevice = () => {
       const video = document.getElementById("videoDemo");
-      const constraints = {
-        video: {
-          aspectRatio: 16 / 9,
-          // width: { ideal: 720 }, // Adjust width to your desired resolution
-          // height: { ideal: 1280 },
-        },
-        audio: true,
-      };
+      let constraints;
+      console.log(getDeviceType());
+      document.getElementById("meetingCreate").innerText = getDeviceType();
+      if (getDeviceType() == "desktop") {
+        constraints = {
+          video: {
+            aspectRatio: 9 / 16,
+            // width: { ideal: 720 }, // Adjust width to your desired resolution
+            // height: { ideal: 1280 },
+          },
+          audio: true,
+        };
+      } else {
+        constraints = {
+          video: {
+            aspectRatio: 16 / 9,
+            // width: { ideal: 720 }, // Adjust width to your desired resolution
+            // height: { ideal: 1280 },
+          },
+          audio: true,
+        };
+      }
       navigator.mediaDevices
         .getUserMedia(constraints)
         .then(stream => {
@@ -790,6 +804,12 @@
     const deleteEmptyModal = () => {
       document.getElementById("modal").remove();
     };
+    const getDeviceType = () =>
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+        ? "Mobile"
+        : "Desktop";
     const createEmptyModal = () => {
       const modalContainer = document.createElement("div");
       modalContainer.setAttribute("id", "modal");
@@ -803,7 +823,7 @@
         }
       };
       modalContent.innerHTML = `
-      <span class="close" onclick="deleteModal();">&times;</span>`;
+          <span class="close" onclick="deleteModal();">&times;</span>`;
       modalContent.innerHTML = chimeCall;
       modalContainer.appendChild(modalContent);
       document.body.appendChild(modalContainer);
