@@ -570,8 +570,8 @@
       const video = document.getElementById("videoDemo");
       let constraints;
       console.log(getDeviceType());
-      document.getElementById("meetingCreate").innerText = getDeviceType();
-      if (getDeviceType() == "desktop") {
+
+      if (getDeviceType() == "Desktop") {
         constraints = {
           video: {
             aspectRatio: 9 / 16,
