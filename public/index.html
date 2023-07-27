@@ -652,8 +652,8 @@
 
         if (videoInputs[0] && videoInputs[0].deviceId != "") {
           await meetingSession.audioVideo.chooseVideoInputQuality(
-            "180",
             "320",
+            "180",
             "15"
           ); // 540p 15fps
           await meetingSession.audioVideo.setVideoMaxBandwidthKbps(1400);
