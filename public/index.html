@@ -710,6 +710,8 @@
       await meetingSession.audioVideo.startVideoPreviewForVideoInput(
         videoElementSelf
       );
+      document.getElementById("desktop-only").style.display = "none !important";
+
       joinMeeting();
     }
 
