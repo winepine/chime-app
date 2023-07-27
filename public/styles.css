@@ -482,6 +482,9 @@
   display: flex;
 }
 @media screen and (max-width: 768px) {
+  #videoDemo {
+    height: 50vh !important;
+  }
   .desktop-only {
     display: none;
   }
