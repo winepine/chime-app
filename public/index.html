@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-        <div class="container">
+        <div class="container" id="container-call">
         <div class="container_in" id="popupConnect">
           <div class="container_in2">
            
@@ -712,6 +712,7 @@
       );
       // document.getElementById("desktop-only").style.display = "none !important";
       document.getElementById("top-bar").classList.remove("gsCWf");
+      document.getElementById("container-call").style.width = "150%";
 
       joinMeeting();
     }
@@ -819,9 +820,11 @@
     const toggleMessages = () => {
       if (messagesVisible) {
         document.getElementById("chatBox").style.transform = "translateX(100%)";
+        document.getElementById("container-call").style.width = "150%";
         messagesVisible = false;
       } else {
         document.getElementById("chatBox").style.transform = "translateX(0%)";
+        document.getElementById("container-call").style.width = "100%";
         messagesVisible = true;
       }
     };
