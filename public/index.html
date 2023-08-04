@@ -358,6 +358,7 @@
           }
         }
       );
+      startTimer();
     };
     const sendFunction = async () => {
       const textBox = document.getElementById("textBox");
@@ -751,7 +752,7 @@
           console.log("Someone Joined 1");
           logger.debug("Started");
           //console.log("audioVideoDidStart fired");
-          startTimer();
+          // startTimer();
           meetingSession.audioVideo.startLocalVideoTile();
           if (!videoTrack.enabled) {
             const localVideoTile =
@@ -792,7 +793,7 @@
         },
         audioVideoDidStop: async sessionStatus => {
           await meetingSession.audioVideo.stopAudioInput();
-
+          console.log("SOMEONE LEFT 2");
           // Or use the destroy API to call stopAudioInput and stopVideoInput.
           meetingSession.deviceController.destroy();
         },
