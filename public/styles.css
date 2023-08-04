@@ -519,7 +519,8 @@
   }
   .chat-style {
     position: fixed;
-    width: 100%;
+    /* width: 100%; */
+    width: 300px;
     height: 100%;
   }
   .cross {
