@@ -197,6 +197,7 @@
   width: 100%;
   height: 100%;
   background-color: #000000;
+  border-radius: 10px;
 }
 .c9 {
   padding-top: 1.25rem;
@@ -430,6 +431,9 @@
   transition-duration: 300ms;
   transition-duration: 500ms;
   /* --transform-translate-y: 100%; */
+}
+.fa-regular:hover {
+  background-color: transparent !important; /* Set the background color to transparent */
 }
 .hidden {
   display: none;
