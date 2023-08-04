@@ -63,6 +63,7 @@
   color: #000000;
   background-color: #d1d5db;
   border: none;
+  width: 3rem;
 }
 .div-2 {
   display: flex;

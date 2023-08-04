@@ -158,13 +158,13 @@
                     <button onclick="toggleMessages();" class="c12">
                       <i class="fa-solid fa-message"></i>
                     </button>
-                    <button onclick="copyToClipboard()" class="c13">
+                    <button onclick="copyToClipboard()" class="button-1">
                       <i class="fa-solid fa-copy"></i>
                     </button>
                     <button
                       onclick="audioControl()"
                       id="muteAudioButtonCall"
-                      class="c13"
+                      class="button-1"
                     >
                       <i
                         class="fa-solid fa-microphone"
@@ -179,7 +179,7 @@
                     <button
                       onclick="videoControl()"
                       id="muteVideoButtonCall"
-                      class="c14"
+                      class="button-1"
                     >
                       <i
                         class="fa-solid fa-video"
@@ -787,6 +787,7 @@
         },
         videoTileWasRemoved: tileId => {
           console.log("Someone Left");
+          stopTimer();
           const videoElementRemoved =
             document.getElementById("video-tile-other");
           if (videoElementRemoved) videoElementRemoved.style.display = "none";
