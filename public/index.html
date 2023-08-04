@@ -202,53 +202,6 @@
           <audio id="audio" crossorigin="anonymous" autoplay="autoplay"></audio>
         </div>
 
-        <div id="chatBox" class="chat-style">
-          <div class="t1">
-      <div class="t2">
-        <!-- user info -->
-        <div class="t3">
-        </div>
-        <!-- end user info -->
-        <!-- chat box action -->
-        <div style="margin:10px;">
-          <div class="wcrwV gsCWf EJVsl">
-              <div class="AYaOY TNIio UYvZu gsCWf EJVsl OtrSK DeYlt">
-                  <svg onclick="toggleMessages();" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g>
-                          <path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                      </g>
-                  </svg>
-              </div>
-          </div>
-        </div>
-        <!-- end chat box action -->
-      </div>
-
-      <div class="t8" id="messages">
-
-      </div>
-
-      <form onsubmit="event.preventDefault(); sendFunction()">
-      <div class="t20">
-        <!-- end chat input action -->
-
-        <div class="t22">
-          <input class="t23" id="textBox" type="text" value="" placeholder="Message.." autofocus />
-        </div>
-
-        <!-- chat send action -->
-
-          <button class="t24" id="sendButton" type="submit">
-            <i class="fa-regular fa-paper-plane"></i>
-          </button>
-
-          <!-- end chat send action -->
-          </div>
-          </form>
-    </div>
-
-        </div>
-
         <!-- ----------------- -->
         <div id="errorCam" class="e1">
           <div class="e2">
@@ -719,7 +672,7 @@
       );
       // document.getElementById("desktop-only").style.display = "none !important";
       document.getElementById("top-bar").classList.remove("gsCWf");
-      document.getElementById("container-call").style.width = "150%";
+      document.getElementById("container-call").style.width = "100%";
 
       joinMeeting();
     }
@@ -829,7 +782,7 @@
     const toggleMessages = () => {
       if (messagesVisible) {
         document.getElementById("chatBox").style.transform = "translateX(100%)";
-        document.getElementById("container-call").style.width = "150%";
+        document.getElementById("container-call").style.width = "100%";
         messagesVisible = false;
       } else {
         document.getElementById("chatBox").style.transform = "translateX(0%)";
