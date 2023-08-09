@@ -136,7 +136,7 @@
   justify-content: center;
   align-items: flex-end;
   text-align: center;
-  min-height: 75vh;
+  /* min-height: 75vh; */
   @media (min-width: 640px) {
     display: block;
     padding: 0;
@@ -491,6 +491,9 @@
   display: flex;
 }
 @media screen and (max-width: 768px) {
+  .container {
+    height: 100%;
+  }
   #videoDemo {
     height: 50vh !important;
   }
@@ -499,6 +502,7 @@
   }
   .c8 {
     position: initial;
+    height: 100%;
   }
   .modal-content {
     height: 100%;
@@ -517,6 +521,7 @@
   .c2 {
     padding-top: 0;
     background-color: black;
+    height: 100%;
   }
   .chat-style {
     position: fixed;
