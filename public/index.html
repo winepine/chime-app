@@ -152,6 +152,11 @@
                     src=""
                   ></video>
                 </div>
+                <img id="calling-image" src="./calling.png" style="
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+">
                 <video id="video-tile-other" class="video-inside-2" src=""></video>
                 <div class="c10">
                   <div class="c11">
@@ -705,7 +710,6 @@
           }
         },
         videoTileDidUpdate: tileState => {
-          console.log("Someone Joined 2");
           //console.log("videoTileDidUpdate fired", tileState);
           if (!tileState.boundAttendeeId) {
             return;
@@ -715,7 +719,7 @@
               tileState.tileId,
               videoElementSelf
             );
-            //console.log("local tile");
+            console.log("u1");
           } else {
             const videoElementNew = document.getElementById("video-tile-other");
             meetingSession.audioVideo.bindVideoElement(
@@ -723,10 +727,13 @@
               videoElementNew
             );
             videoElementNew.style.display = "block";
+            document.getElementById("calling-image").style.display = "none";
+            console.log("u2");
           }
         },
         videoTileWasRemoved: tileId => {
           console.log("Someone Left");
+          document.getElementById("calling-image").style.display = "block";
           stopTimer();
           const videoElementRemoved =
             document.getElementById("video-tile-other");
