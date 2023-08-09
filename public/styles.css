@@ -300,16 +300,16 @@
   background-size: cover;
 }
 .chat-style {
-  /* position: fixed; */
+  position: absolute;
   right: 0;
   top: 0;
-  width: 40%;
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
   background-color: #fff;
   border: 1px solid #ccc;
   overflow-y: scroll;
   z-index: 99;
-  display: none;
+  /* display: none; */
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
@@ -523,6 +523,8 @@
     padding-top: 0;
     background-color: black;
     height: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
   .chat-style {
     position: fixed;
