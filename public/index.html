@@ -143,7 +143,12 @@
 
             <div class="c5">
               <div class="c8">
-                <p style="position: absolute" id="timer" class="c9">00:00:00</p>
+                <div
+                style="position: absolute;padding-top: 10px;"
+                >
+                  <p style="margin-bottom:0;" id="userid" class="c9"></p>
+                  <p id="timer" class="c9">00:00:00</p>
+                </div>
                 <div class="c6">
                   <video
                     style="height: 20vh"
@@ -439,6 +444,9 @@
           minutes = 0;
           hours++;
         }
+      }
+      if (seconds == 30 && visitor && minutes == 0 && hours == 0) {
+        addDoubleModal();
       }
       updateDisplay();
     };
@@ -872,6 +880,48 @@
       document.body.appendChild(modalContainer);
       checkLocalDevice();
       initCall();
+    };
+    const addDoubleModal = () => {
+      const modalContainer = document.createElement("div");
+      modalContainer.setAttribute("id", "double-modal");
+      modalContainer.setAttribute("class", "double-modal");
+      const modalContent = document.createElement("div");
+      modalContent.setAttribute("class", "modal-content");
+      modalContainer.style.display = "block";
+      window.onclick = function (event) {
+        if (event.target == modalContainer) {
+          document.getElementById("double-modal").remove();
+        }
+      };
+      modalContainer.appendChild(modalContent);
+      modalContent.innerHTML = `
+      <div id="top-bar" class="tSrNa EJVsl zsSLy desktop-only">
+                        <h1 class="USKIn">Buy Credits</h1>
+                        <div class="wcrwV gsCWf EJVsl">
+                            <div class="AYaOY TNIio UYvZu gsCWf EJVsl OtrSK DeYlt">
+                                <svg onclick="document.getElementById('double-modal').remove();" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+      <div class="double-modal-content">
+      <h2>Buy More Credits</h2>
+      <p>You have 0 credits left. Please buy more credits to continue.</p>
+      <div class="modal-buttons">
+        <button class="modal-button" onclick="document.getElementById('double-modal').remove();">50 Credits</button>
+        <button class="modal-button" onclick="document.getElementById('double-modal').remove();">100 Credits</button>
+        <button class="modal-button" onclick="document.getElementById('double-modal').remove();">200 Credits</button>
+      </div>
+      <p style="
+    margin-top: 20px;
+    font-size: 14px;
+">Credits are purchased through a secure payment gateway.</p>
+      <div>
+  `;
+      document.body.appendChild(modalContainer);
     };
   </script>
 </html>
