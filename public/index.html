@@ -779,6 +779,7 @@
         },
         videoTileWasRemoved: tileId => {
           console.log("Someone Left");
+          document.getElementById("calling-image").src = "./no-video.png";
           document.getElementById("calling-image").style.display = "block";
           stopTimer();
           const videoElementRemoved =
